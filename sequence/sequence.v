@@ -3,6 +3,12 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
+(* The following imports are useful for extracting Haskell code. *)
+Require Import ExtrHaskellBasic.
+Require Import ExtrHaskellNatInt.
+Require Import ExtrHaskellZInteger.
+Require Import ExtrHaskellString.
+
 (* Converts the boolean value true to the natural number 1, false to 0. *)
 Fixpoint bool_to_nat(b: bool) : nat :=
   match b with
