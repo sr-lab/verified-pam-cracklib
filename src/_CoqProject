@@ -1,0 +1,7 @@
+-R . MyFancyLib
+./PalindromeProofs.v
+./src/BoolExtensions.v
+./src/StringExtensions.v
+./src/StringTools/Case.v
+./src/StringTools/Sequence.v
+./src/StringTools/WordCheck.v
