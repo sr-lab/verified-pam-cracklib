@@ -10,4 +10,4 @@ Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
 Extraction Language Haskell.
-Extraction "PalindromeGenerated.hs" boolToNat palindrome.
+Extraction "PalindromeGenerated.hs" palindrome.
