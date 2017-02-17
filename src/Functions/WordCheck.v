@@ -3,6 +3,7 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
+Require Import Pam.BoolExtensions.
 Require Import Pam.StringExtensions.
 
 (* Returns true if a string contains a substring, otherwise returns false. *)
@@ -20,5 +21,10 @@ Fixpoint contains(h n: string) : bool :=
 
 (* Returns true if a string contains a substring or a reversed version of that 
    substring, otherwise returns false. *)
-Fixpoint wordcheck(s w : string) : bool :=
+Fixpoint wordcheckb(s w : string) : bool :=
   orb (contains s w) (contains (string_reverse s) w).
+
+(* Returns 1 if a string contains a substring or a reversed version of that 
+   substring, otherwise returns 0. *)
+Definition wordcheck (s : string) : nat :=
+  bool_to_nat (wordcheckb s).

@@ -3,6 +3,8 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
+Require Import Pam.BoolExtensions.
+
 (* Returns true if one character is exactly one more than another, otherwise 
    returns false. *)
 Definition consec_up(c1 c2:ascii) : bool :=
@@ -41,5 +43,10 @@ Fixpoint sequence_down (s: string) : nat :=
 
 (* Returns true if a given string contains consecutive character sequences 
    longer than the specified maximum length, otherwise returns false. *)
-Fixpoint sequence (s: string) (m: nat) : bool :=
+Fixpoint sequenceb (s: string) (m: nat) : bool :=
   leb m (max (sequence_up s) (sequence_down s)).
+
+(* Returns 1 if a given string contains consecutive character sequences 
+   longer than the specified maximum length, otherwise returns 0. *)
+Fixpoint sequence (s: string) (m: nat) : nat :=
+  bool_to_nat (sequenceb s m).

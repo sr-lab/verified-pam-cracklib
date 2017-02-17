@@ -123,6 +123,11 @@ Fixpoint string_count_character_classes(s : string) : nat :=
 
 (* Returns true if the number of character classes in a string is greater than
    or equal to the given minimum. Otherwise returns false. *)
-Fixpoint minclass(s : string) (min :nat) : bool :=
+Fixpoint minclassb(s : string) (min :nat) : bool :=
   (negb (ltb (string_count_character_classes s) min)).
+  
+(* Returns 1 if the number of character classes in a string is greater than
+   or equal to the given minimum. Otherwise returns 0. *)
+Fixpoint minclass(s : string) (min :nat) : nat :=
+  bool_to_nat (minclassb s min).
   
