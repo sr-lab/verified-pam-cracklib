@@ -27,12 +27,7 @@ Fixpoint string_reverse(s : string) : string :=
 (* Demonstrate that the string reversal function is its own inverse. *)
 Example string_reverse_is_self_inverse: 
   Is_true (string_eqb "3Ha8mX7ExnWT" (string_reverse (string_reverse "3Ha8mX7ExnWT"))).
-Proof.
-  Admitted.
 
 (* Demonstrate that the string reversal function is not a no-op. *)
 Example string_reverse_is_not_noop:
   Is_true (string_neqb "EzKAv283Kx3s" (string_reverse "EzKAv283Kx3s")).
-Proof.
-  Admitted.
-
