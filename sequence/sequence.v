@@ -9,13 +9,6 @@ Require Import ExtrHaskellNatInt.
 Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
-(* Converts the boolean value true to the natural number 1, false to 0. *)
-Fixpoint bool_to_nat(b: bool) : nat :=
-  match b with
-  | true => 1
-  | false => 0
-  end.
-
 (* Returns true if one character is exactly one more than another, otherwise 
    returns false. *)
 Definition consec_up(c1 c2:ascii) : bool :=
