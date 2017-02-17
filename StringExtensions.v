@@ -33,7 +33,7 @@ Qed.
 
 (* Demonstrate that the string reversal function is not a no-op. *)
 Example string_reverse_is_not_noop:
-  Is_true (string_neqb "3Ha8mX7ExnWT" (string_reverse "3Ha8mX7ExnWT")).
+  Is_true (string_neqb "EzKAv283Kx3s" (string_reverse "EzKAv283Kx3s")).
 Proof.
   auto.
 Qed.
