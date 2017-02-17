@@ -21,7 +21,7 @@ main:
 	ghc -F -pgmF ./fiximports.py -fPIC -shared -dynamic -o pam_cracklib_v.so PalindromeGenerated.o PalindromeInterface.o pam_cracklib_v.c -lHSrts-ghc7.10.3 -lpam -lcrack
 
 clean:
-	rm *.hi *.o *~ *.vo *.glob PalindromeGenerated.* pam_cracklib_v *.so *_stub.h
+	rm -f *.hi *.o .*.aux *~ *.vo *.glob PalindromeGenerated.* pam_cracklib_v *.so *_stub.h
 
 install:
 	# Delete existing installation and copy built installation over
