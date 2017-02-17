@@ -10,4 +10,4 @@ Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
 Extraction Language Haskell.
-Extraction "PalindromeGenerated.hs" palindrome.
+Extraction "PamGenerated.hs" palindrome wordcheck minclass sequence.
