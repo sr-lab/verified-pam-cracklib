@@ -3,12 +3,8 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-(* Converts the boolean value true to the natural number 1, false to 0. *)
-Fixpoint bool_to_nat(b: bool) : nat :=
-  match b with
-  | true => 1
-  | false => 0
-  end.
+Require Import Pam.BoolExtensions.
+Require Import Pam.StringExtensions.
 
 (* Returns true if a given ASCII character is upper case, otherwise returns 
    false. *)
@@ -63,19 +59,10 @@ Fixpoint string_to_upper(s : string) : string :=
   | String c s => String (to_upper c) (string_to_upper s)
   end.
 
-(* Returns true if two strings are equivalent, otherwise returns false. *)
-Fixpoint string_eq(s1 s2 : string) : bool :=
-  match s1, s2 with
-  | EmptyString, EmptyString => true
-  | String c1 s1', String c2 s2' => andb
-    (beq_nat (nat_of_ascii c1) (nat_of_ascii c2)) (string_eq s1' s2')
-  | _, _ => false
-  end.
-
 (* Returns true if two strings are equivalent, disregarding case, otherwise 
    returns false. *)
 Fixpoint string_eq_ignorecase(s1 s2 : string) : bool :=
-  (string_eq (string_to_lower s1) (string_to_lower s2)).
+  (string_eqb (string_to_lower s1) (string_to_lower s2)).
 
 (* Counts the number of characters in a string that satisfy a function. *)
 Fixpoint string_count(s : string) (f: ascii->bool) : nat :=
