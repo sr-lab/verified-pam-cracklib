@@ -1,0 +1,12 @@
+# Compiled code
+*.vo
+*.glob
+*.v.d
+*.vo.aux
+
+# Generated project file
+_CoqProject
+
+# Generated Makefile
+/src/Makefile
+
