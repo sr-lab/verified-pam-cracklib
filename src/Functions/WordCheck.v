@@ -26,5 +26,5 @@ Fixpoint wordcheckb(s w : string) : bool :=
 
 (* Returns 1 if a string contains a substring or a reversed version of that 
    substring, otherwise returns 0. *)
-Definition wordcheck (s : string) : nat :=
-  bool_to_nat (wordcheckb s).
+Definition wordcheck (s w : string) : nat :=
+  bool_to_nat (wordcheckb s w).
