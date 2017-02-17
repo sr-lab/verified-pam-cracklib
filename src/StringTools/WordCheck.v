@@ -3,12 +3,6 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-(* The following imports are useful for extracting Haskell code. *)
-Require Import ExtrHaskellBasic.
-Require Import ExtrHaskellNatInt.
-Require Import ExtrHaskellZInteger.
-Require Import ExtrHaskellString.
-
 (* Returns true if two strings are equivalent, otherwise returns false. *)
 Fixpoint string_eq(s1 s2 : string) : bool :=
   match s1, s2 with

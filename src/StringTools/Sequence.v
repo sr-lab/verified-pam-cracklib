@@ -3,12 +3,6 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-(* The following imports are useful for extracting Haskell code. *)
-Require Import ExtrHaskellBasic.
-Require Import ExtrHaskellNatInt.
-Require Import ExtrHaskellZInteger.
-Require Import ExtrHaskellString.
-
 (* Returns true if one character is exactly one more than another, otherwise 
    returns false. *)
 Definition consec_up(c1 c2:ascii) : bool :=

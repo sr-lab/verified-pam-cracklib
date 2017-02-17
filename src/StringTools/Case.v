@@ -3,12 +3,6 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-(* The following imports are useful for extracting Haskell code. *)
-Require Import ExtrHaskellBasic.
-Require Import ExtrHaskellNatInt.
-Require Import ExtrHaskellZInteger.
-Require Import ExtrHaskellString.
-
 (* Converts the boolean value true to the natural number 1, false to 0. *)
 Fixpoint bool_to_nat(b: bool) : nat :=
   match b with
@@ -144,24 +138,4 @@ Fixpoint string_count_character_classes(s : string) : nat :=
    or equal to the given minimum. Otherwise returns false. *)
 Fixpoint minclass(s : string) (min :nat) : bool :=
   (negb (ltb (string_count_character_classes s) min)).
-
-(* Demonstration. *)
-Compute is_lower "a".
-Compute is_lower "Z".
-Compute is_upper "a".
-Compute is_upper "Z".
-Compute to_lower "A".
-Compute to_upper "z".
-Compute string_to_upper "hello world".
-Compute string_to_lower "HELLO WORLD".
-Compute string_eq "hello" "hello".
-Compute string_eq "hello" "world".
-Compute string_eq_ignorecase "HELLO" "hEllo".
-
-(* Pulling together. *)
-Compute minclass "absfh27394" 3. (* Fails, lowercase and digit present only, 3 classes required. *)
-Compute minclass "absfh27394" 2. (* Passes, lowercase and digit present, 2 classes required. *)
-Compute minclass "SDJFS27394" 1. (* Passes, uppercase and digit present, 1 class required. *)
-Compute minclass "" 1. (* Fails, empty string, one class required. *)
-Compute minclass "" 0. (* Passes, empty string, no classes required. *)
-Compute minclass "aB1@@#" 4. (* Passes, contains all 4 character classes, 4 required. *)
+  
