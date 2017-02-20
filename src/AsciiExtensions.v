@@ -23,11 +23,12 @@ Definition is_digit (c : ascii) : bool :=
     andb (leb 48 n) (leb n 57).
 
 (* Returns true if a given ASCII character is neither a digit, upper case letter
-   or lower case letter. Otherwise returns false. *)
+   nor lower case letter. Otherwise returns false. *)
 Definition is_other (c : ascii) : bool :=
   negb (orb (is_lower c) (orb (is_upper c) (is_digit c))).
 
-(* Converts an ASCII characer to lower case. *)
+(* Converts an upper case ASCII characer to lower case. For any other character
+   returns it unchanged. *)
 Definition to_lower (c : ascii) : ascii :=
   let n := nat_of_ascii c in
     if is_upper c then
@@ -35,7 +36,8 @@ Definition to_lower (c : ascii) : ascii :=
     else
       c.
 
-(* Converts an ASCII character to upper case. *)
+(* Converts a lower case ASCII character to upper case. For any other character
+   returns it unchanged. *)
 Definition to_upper (c : ascii) : ascii :=
   let n := nat_of_ascii c in
     if is_lower c then
