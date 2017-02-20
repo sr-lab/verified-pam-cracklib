@@ -7,25 +7,6 @@ Require Import Pam.AsciiExtensions.
 Require Import Pam.BoolExtensions.
 Require Import Pam.StringExtensions.
 
-(* Converts a string to lower case. *)
-Fixpoint string_to_lower (s : string) : string :=
-  match s with
-  | EmptyString => s
-  | String c s => String (to_lower c) (string_to_lower s)
-  end.
-
-(* Converts a string to upper case. *)
-Fixpoint string_to_upper (s : string) : string :=
-  match s with
-  | EmptyString => s
-  | String c s => String (to_upper c) (string_to_upper s)
-  end.
-
-(* Returns true if two strings are equivalent, disregarding case, otherwise 
-   returns false. *)
-Fixpoint string_eq_ignorecase (s1 s2 : string) : bool :=
-  string_eqb (string_to_lower s1) (string_to_lower s2).
-
 (* Counts the number of characters in a string that satisfy a function. *)
 Fixpoint string_count (s : string) (f : ascii->bool) : nat :=
   match s with
