@@ -1,8 +1,5 @@
-Require Import Coq.Arith.EqNat.
-Require Import Coq.Bool.Bool.
 Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
-Require Import Coq.Strings.String.
 
 (* Returns true if a given ASCII character is upper case, otherwise returns 
    false. *)
