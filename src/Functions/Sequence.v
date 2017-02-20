@@ -7,12 +7,12 @@ Require Import Pam.BoolExtensions.
 
 (* Returns true if one character is exactly one more than another, otherwise 
    returns false. *)
-Definition consec_up(c1 c2:ascii) : bool :=
-  (eqb (nat_of_ascii c1) ((nat_of_ascii c2) - 1)).
+Definition consec_up (c1 c2 : ascii) : bool :=
+  eqb (nat_of_ascii c1) ((nat_of_ascii c2) - 1).
 
 (* Returns true if one character is exactly one less than another, otherwise 
    returns false. *)
-Definition consec_down(c1 c2:ascii) : bool :=
+Definition consec_down (c1 c2 : ascii) : bool :=
   eqb (nat_of_ascii c1) ((nat_of_ascii c2) + 1).
 
 (* Returns true if one character is exactly equal to another, otherwise 
@@ -22,7 +22,7 @@ Definition consec_eq (c1 c2 : ascii) : bool :=
 
 (* Returns the maximum number of times consecutive characters in a string 
    satisfy a function. *)
-Fixpoint sequence_of (s : string) (f : ascii->ascii->bool) (a: nat) : nat :=
+Fixpoint sequence_of (s : string) (f : ascii->ascii->bool) (a : nat) : nat :=
   match s with
   | EmptyString => a
   | String c1 s1 => 
@@ -38,12 +38,12 @@ Fixpoint sequence_of (s : string) (f : ascii->ascii->bool) (a: nat) : nat :=
 
 (* Returns the maximum number of times consecutive characters in a string are 
    one more than their predecessor. *)
-Fixpoint sequence_up (s: string) : nat :=
+Fixpoint sequence_up (s : string) : nat :=
   sequence_of s consec_up 0.
 
 (* Returns the maximum number of times consecutive characters in a string are 
    one less than their predecessor. *)
-Fixpoint sequence_down (s: string) : nat :=
+Fixpoint sequence_down (s : string) : nat :=
   sequence_of s consec_down 0.
 
 (* Returns the maximum number of times consecutive characters in a string are 
@@ -53,12 +53,12 @@ Fixpoint sequence_eq (s : string) : nat :=
 
 (* Returns true if a given string contains consecutive character sequences 
    longer than the specified maximum length, otherwise returns false. *)
-Fixpoint sequenceb (s: string) (m: nat) : bool :=
+Fixpoint sequenceb (s : string) (m : nat) : bool :=
   leb m (max (sequence_up s) (sequence_down s)).
 
 (* Returns 1 if a given string contains consecutive character sequences 
    longer than the specified maximum length, otherwise returns 0. *)
-Fixpoint sequence (s: string) (m: nat) : nat :=
+Fixpoint sequence (s : string) (m : nat) : nat :=
   bool_to_nat (sequenceb s m).
 
 (* Returns true if a given string contains consecutive idential characters
