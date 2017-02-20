@@ -15,6 +15,11 @@ Definition consec_up(c1 c2:ascii) : bool :=
 Definition consec_down(c1 c2:ascii) : bool :=
   eqb (nat_of_ascii c1) ((nat_of_ascii c2) + 1).
 
+(* Returns true if one character is exactly equal to another, otherwise 
+   returns false. *)
+Definition consec_eq (c1 c2 : ascii) : bool :=
+  eqb (nat_of_ascii c1) (nat_of_ascii c2).
+
 (* Returns the maximum number of times consecutive characters in a string 
    satisfy a function. *)
 Fixpoint sequence_of (s : string) (f : ascii->ascii->bool) (a: nat) : nat :=
@@ -36,10 +41,15 @@ Fixpoint sequence_of (s : string) (f : ascii->ascii->bool) (a: nat) : nat :=
 Fixpoint sequence_up (s: string) : nat :=
   sequence_of s consec_up 0.
 
-(* Returns the maximum number of times consecurive characters in a string are 
+(* Returns the maximum number of times consecutive characters in a string are 
    one less than their predecessor. *)
 Fixpoint sequence_down (s: string) : nat :=
   sequence_of s consec_down 0.
+
+(* Returns the maximum number of times consecutive characters in a string are 
+   the same as their predecessor. *)
+Fixpoint sequence_eq (s : string) : nat :=
+  sequence_of s consec_eq 0.
 
 (* Returns true if a given string contains consecutive character sequences 
    longer than the specified maximum length, otherwise returns false. *)
@@ -50,3 +60,13 @@ Fixpoint sequenceb (s: string) (m: nat) : bool :=
    longer than the specified maximum length, otherwise returns 0. *)
 Fixpoint sequence (s: string) (m: nat) : nat :=
   bool_to_nat (sequenceb s m).
+
+(* Returns true if a given string contains consecutive idential characters
+   longer than the specified maximum length, otherwise returns false. *)
+Fixpoint consecutiveb (s : string) (m : nat) : bool :=
+  leb m (sequence_eq s).
+
+(* Returns 1 if a given string contains consecutive idential characters
+   longer than the specified maximum length, otherwise returns 0. *)
+Fixpoint consecutive (s : string) (m : nat) : nat :=
+  bool_to_nat (consecutiveb s m).
