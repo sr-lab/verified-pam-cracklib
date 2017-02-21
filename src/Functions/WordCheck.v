@@ -7,7 +7,7 @@ Require Import Pam.BoolExtensions.
 Require Import Pam.StringExtensions.
 
 (* Returns true if a string contains a substring, otherwise returns false. *)
-Fixpoint contains(h n: string) : bool :=
+Fixpoint contains (h n : string) : bool :=
   match h with 
   | String c s => 
       if length h <? length n then
@@ -21,7 +21,7 @@ Fixpoint contains(h n: string) : bool :=
 
 (* Returns true if a string contains a substring or a reversed version of that 
    substring, otherwise returns false. *)
-Fixpoint wordcheckb(s w : string) : bool :=
+Fixpoint wordcheckb (s w : string) : bool :=
   orb (contains s w) (contains (string_reverse s) w).
 
 (* Returns 1 if a string contains a substring or a reversed version of that 
