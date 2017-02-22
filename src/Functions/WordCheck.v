@@ -21,10 +21,10 @@ Fixpoint contains (h n : string) : bool :=
 
 (* Returns true if a string contains a substring or a reversed version of that 
    substring, otherwise returns false. *)
-Fixpoint wordcheckb (s w : string) : bool :=
-  orb (contains s w) (contains (string_reverse s) w).
+Fixpoint wordcheckb (h n : string) : bool :=
+  orb (contains h n) (contains (string_reverse h) n).
 
 (* Returns 1 if a string contains a substring or a reversed version of that 
    substring, otherwise returns 0. *)
-Definition wordcheck (s w : string) : nat :=
-  bool_to_nat (wordcheckb s w).
+Definition wordcheck (h n : string) : nat :=
+  bool_to_nat (wordcheckb h n).
