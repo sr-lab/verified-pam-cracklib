@@ -9,6 +9,7 @@ Definition compare_ascii (c1 c2 : ascii) : comparison  :=
 (* Proves that a comparison of two ASCII characters implies their equality. *)
 Lemma compare_ascii_implies_eq : forall (c1 c2 : ascii),
   compare_ascii c1 c2 = Eq -> c1 = c2.
+Proof.
   intros.
   rewrite <- ascii_N_embedding with (a := c1).
   rewrite <- ascii_N_embedding with (a := c2).
