@@ -24,8 +24,7 @@ Fixpoint string_to_upper (s : string) : string :=
 Fixpoint string_eqb (s1 s2 : string) : bool :=
   match s1, s2 with
   | EmptyString, EmptyString => true
-  | String c1 s1', String c2 s2' => andb
-    (beq_nat (nat_of_ascii c1) (nat_of_ascii c2)) (string_eqb s1' s2')
+  | String c1 s1', String c2 s2' => andb (beq_ascii c1 c2) (string_eqb s1' s2')
   | _, _ => false
   end.
 
