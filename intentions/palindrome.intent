@@ -1,0 +1,18 @@
+[intention]
+	If the given string s is a palindrome
+		return true
+	otherwise
+		return false.
+		
+[definitions]
+	palindrome: 
+		A string that is identical whether written forwards or backwards.
+
+[specification]
+	palindrome (s : string) :=
+		beq_string s (string_reverse s).
+	
+[requires]
+	+ Boolean string equality (beq_string)
+	+ String reversal (string_reverse)
+	
