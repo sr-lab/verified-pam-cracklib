@@ -1,5 +1,27 @@
+Require Import Coq.NArith.NArith.
 Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
+
+(* Returns the comparison of two ASCII characters. *)
+Definition compare_ascii (c1 c2 : ascii) : comparison  :=
+  N.compare (N_of_ascii c1) (N_of_ascii c2).
+
+(* Proves that a comparison of two ASCII characters implies their equality. *)
+Lemma compare_ascii_implies_eq : forall (c1 c2 : ascii),
+  compare_ascii c1 c2 = Eq -> c1 = c2.
+  intros.
+  rewrite <- ascii_N_embedding with (a := c1).
+  rewrite <- ascii_N_embedding with (a := c2).
+  f_equal.
+  now apply N.compare_eq_iff.
+Qed. 
+
+(* Boolean equality for ASCII characters. *)
+Definition beq_ascii (c1 c2 : ascii) : bool :=
+  match compare_ascii c1 c2 with
+    | Eq => true
+    | _ => false
+  end.
 
 (* Returns true if a given ASCII character is upper case, otherwise returns 
    false. *)
