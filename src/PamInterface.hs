@@ -21,6 +21,10 @@ minclass_hs s m = (fromIntegral (bool_to_nat (minclass (unsafePerformIO (peekCSt
 wordcheck_hs :: CString -> CString -> CInt
 wordcheck_hs h n = (fromIntegral (bool_to_nat (wordcheck (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)))))
  
+similar_hs :: CString -> CString -> CInt -> CInt
+similar_hs h n d = (fromIntegral (bool_to_nat (similar (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)) (fromIntegral d))))
+
 foreign export ccall palindrome_hs :: CString -> CInt
 foreign export ccall minclass_hs :: CString -> CInt -> CInt
 foreign export ccall wordcheck_hs :: CString -> CString -> CInt
+foreign export ccall similar_hs :: CString -> CString -> CInt -> CInt
