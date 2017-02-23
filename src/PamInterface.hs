@@ -18,5 +18,9 @@ palindrome_hs = fromIntegral . bool_to_nat . palindrome . unsafePerformIO . peek
 minclass_hs :: CString -> CInt -> CInt
 minclass_hs s m = (fromIntegral (bool_to_nat (minclass (unsafePerformIO (peekCString s)) (fromIntegral m))))
  
+wordcheck_hs :: CString -> CString -> CInt
+wordcheck_hs h n = (fromIntegral (bool_to_nat (wordcheck (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)))))
+ 
 foreign export ccall palindrome_hs :: CString -> CInt
 foreign export ccall minclass_hs :: CString -> CInt -> CInt
+foreign export ccall wordcheck_hs :: CString -> CString -> CInt
