@@ -312,47 +312,6 @@ static int similar(struct cracklib_options *opt,
 }
 
 /*
- * enough classes of charecters
- */
-
-static int minclass (struct cracklib_options *opt,
-		     const char *new)
-{
-    int digits = 0;
-    int uppers = 0;
-    int lowers = 0;
-    int others = 0;
-    int total_class;
-    int i;
-    int retval;
-
-    D(( "called" ));
-    for (i = 0; new[i]; i++)
-       {
-	 if (isdigit (new[i]))
-             digits = 1;
-	 else if (isupper (new[i]))
-             uppers = 1;
-	 else if (islower (new[i]))
-             lowers = 1;
-	 else
-             others = 1;
-       }
-
-    total_class = digits + uppers + lowers + others;
-
-    D (("total class: %d\tmin_class: %d", total_class, opt->min_class));
-
-    if (total_class >= opt->min_class)
-        retval = 0;
-    else
-      retval = 1;
-
-    return retval;
-}
-
-
-/*
  * a nice mix of characters.
  */
 static int simple(struct cracklib_options *opt, const char *new)
@@ -652,7 +611,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	if (!msg && wrapped && strstr(wrapped, newmono))
 		msg = _("is rotated");
 
-	if (!msg && minclass (opt, new))
+	if (!msg && minclass_hs(new, opt->min_class))
 	        msg = _("not enough character classes");
 
 	if (!msg && consecutive(opt, new))
