@@ -12,4 +12,4 @@ Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
 Extraction Language Haskell.
-Extraction "PamGenerated.hs" bool_to_nat palindrome wordcheck minclass sequence consecutive similar.
+Extraction "PamGenerated.hs" bool_to_nat palindrome wordcheck minclass sequence_c consecutive similar.

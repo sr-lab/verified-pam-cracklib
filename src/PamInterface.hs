@@ -25,7 +25,7 @@ similar_hs :: CString -> CString -> CInt -> CInt
 similar_hs h n d = (fromIntegral (bool_to_nat (similar (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)) (fromIntegral d))))
  
 sequence_hs :: CString -> CInt -> CInt
-sequence_hs s m = (fromIntegral (bool_to_nat (sequence (unsafePerformIO (peekCString s)) (fromIntegral m))))
+sequence_hs s m = (fromIntegral (bool_to_nat (sequence_c (unsafePerformIO (peekCString s)) (fromIntegral m))))
  
 consecutive_hs :: CString -> CInt -> CInt
 consecutive_hs s m = (fromIntegral (bool_to_nat (consecutive (unsafePerformIO (peekCString s)) (fromIntegral m))))

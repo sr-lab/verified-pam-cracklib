@@ -53,7 +53,7 @@ Fixpoint sequence_eq (s : string) : nat :=
 
 (* Returns true if a given string contains consecutive character sequences 
    longer than the specified maximum length, otherwise returns false. *)
-Fixpoint sequence (s : string) (m : nat) : bool :=
+Fixpoint sequence_c (s : string) (m : nat) : bool :=
   leb m (max (sequence_up s) (sequence_down s)).
 
 (* Returns true if a given string contains consecutive idential characters
