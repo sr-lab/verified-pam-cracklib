@@ -466,15 +466,6 @@ static int sequence(struct cracklib_options *opt, const char *new)
     return 0;
 }
 
-static int usercheck(struct cracklib_options *opt, const char *new,
-		     char *user)
-{
-    if (!opt->reject_user)
-        return 0;
-
-    return wordcheck_hs(new, user);
-}
-
 static char * str_lower(char *string)
 {
 	char *cp;
@@ -594,7 +585,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	if (!msg && sequence(opt, new))
 	        msg = _("contains too long of a monotonic character sequence");
 
-	if (!msg && (usercheck(opt, newmono, usermono) || gecoscheck(pamh, opt, newmono, user)))
+	if (!msg && ((opt->reject_user && wordcheck_hs(newmono, usermono)) || gecoscheck(pamh, opt, newmono, user)))
 	        msg = _("contains the user name in some form");
 
 	free(usermono);
