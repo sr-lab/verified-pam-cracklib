@@ -1,3 +1,4 @@
+Require Import Coq.Init.Nat.
 Require Import Coq.Strings.String.
 
 Require Import Pam.Functions.Levenshtein.
