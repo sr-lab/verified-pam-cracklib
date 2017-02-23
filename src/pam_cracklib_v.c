@@ -849,15 +849,16 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 
 	/* if we have only one try, we can use the real reason,
 	   else say that there were too many tries. */
-	if (options.retry_times > 1)
+	if (options.retry_times > 1) {
 		
     hs_exit();
 	  return PAM_MAXTRIES;
-	else
+	}
+	else {
 		
     hs_exit();
 	  return retval;
-
+	}
     } else {
         if (ctrl & PAM_DEBUG_ARG)
             pam_syslog(pamh, LOG_NOTICE, "UNKNOWN flags setting %02X",flags);
