@@ -220,14 +220,6 @@ _pam_parse (pam_handle_t *pamh, struct cracklib_options *opt,
 /* Helper functions */
 
 /*
- * can't be a palindrome - like `R A D A R' or `M A D A M'
- */
-static int palindrome(const char *new)
-{
-    return palindrome_hs(new);
-}
-
-/*
  * Calculate how different two strings are in terms of the number of
  * character removals, additions, and changes needed to go from one to
  * the other
@@ -645,7 +637,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 		}
 	}
 
-	if (!msg && palindrome(newmono))
+	if (!msg && palindrome_hs(newmono))
 		msg = _("is a palindrome");
 
 	if (!msg && oldmono && strcmp(oldmono, newmono) == 0)
