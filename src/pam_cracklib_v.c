@@ -561,6 +561,9 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 		}
 	}
 
+	if (!msg && minclass_hs(new, opt->min_class))
+	        msg = _("not enough character classes");
+
 	if (!msg && palindrome_hs(newmono))
 		msg = _("is a palindrome");
 
@@ -575,9 +578,6 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 
 	if (!msg && wrapped && strstr(wrapped, newmono))
 		msg = _("is rotated");
-
-	if (!msg && minclass_hs(new, opt->min_class))
-	        msg = _("not enough character classes");
 
 	if (!msg && consecutive(opt, new))
 	        msg = _("contains too many same characters consecutively");
