@@ -220,98 +220,6 @@ _pam_parse (pam_handle_t *pamh, struct cracklib_options *opt,
 /* Helper functions */
 
 /*
- * Calculate how different two strings are in terms of the number of
- * character removals, additions, and changes needed to go from one to
- * the other
- */
-
-static int distdifferent(const char *old, const char *new,
-			 size_t i, size_t j)
-{
-    char c, d;
-
-    if ((i == 0) || (strlen(old) < i)) {
-	c = 0;
-    } else {
-	c = old[i - 1];
-    }
-    if ((j == 0) || (strlen(new) < j)) {
-	d = 0;
-    } else {
-	d = new[j - 1];
-    }
-    return (c != d);
-}
-
-static int distcalculate(int **distances, const char *old, const char *new,
-			 size_t i, size_t j)
-{
-    int tmp = 0;
-
-    if (distances[i][j] != -1) {
-	return distances[i][j];
-    }
-
-    tmp =          distcalculate(distances, old, new, i - 1, j - 1);
-    tmp = MIN(tmp, distcalculate(distances, old, new,     i, j - 1));
-    tmp = MIN(tmp, distcalculate(distances, old, new, i - 1,     j));
-    tmp += distdifferent(old, new, i, j);
-
-    distances[i][j] = tmp;
-
-    return tmp;
-}
-
-static int distance(const char *old, const char *new)
-{
-    int **distances = NULL;
-    size_t m, n, i, j, r;
-
-    m = strlen(old);
-    n = strlen(new);
-    distances = malloc(sizeof(int*) * (m + 1));
-
-    for (i = 0; i <= m; i++) {
-	distances[i] = malloc(sizeof(int) * (n + 1));
-	for(j = 0; j <= n; j++) {
-	    distances[i][j] = -1;
-	}
-    }
-    for (i = 0; i <= m; i++) {
-	distances[i][0] = i;
-    }
-    for (j = 0; j <= n; j++) {
-	distances[0][j] = j;
-    }
-    distances[0][0] = 0;
-
-    r = distcalculate(distances, old, new, m, n);
-
-    for (i = 0; i <= m; i++) {
-	memset(distances[i], 0, sizeof(int) * (n + 1));
-	free(distances[i]);
-    }
-    free(distances);
-
-    return r;
-}
-
-static int similar(struct cracklib_options *opt,
-		   const char *old, const char *new)
-{
-    if (distance(old, new) >= opt->diff_ok) {
-	return 0;
-    }
-
-    if (strlen(new) >= (strlen(old) * 2)) {
-	return 0;
-    }
-
-    /* passwords are too similar */
-    return 1;
-}
-
-/*
  * a nice mix of characters.
  */
 static int simple(struct cracklib_options *opt, const char *new)
@@ -567,7 +475,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	if (!msg && oldmono && strcmp(oldmono, newmono) == 0)
 		msg = _("case changes only");
 
-	if (!msg && oldmono && similar(opt, oldmono, newmono))
+	if (!msg && oldmono && similar_hs(oldmono, newmono, opt->diff_ok))
 		msg = _("is too similar to the old one");
 
 	if (!msg && simple(opt, new))
