@@ -2,6 +2,7 @@ Require Import Pam.Functions.MinClass.
 Require Import Pam.Functions.Sequence.
 Require Import Pam.Functions.Palindrome.
 Require Import Pam.Functions.WordCheck.
+Require Import Pam.Functions.Levenshtein.
 
 (* The following imports are useful for extracting Haskell code. *)
 Require Import ExtrHaskellBasic.
@@ -10,4 +11,4 @@ Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
 Extraction Language Haskell.
-Extraction "PamGenerated.hs" palindrome wordcheck minclass sequence consecutive.
+Extraction "PamGenerated.hs" palindrome wordcheck minclass sequence consecutive levenshtein_distance.
