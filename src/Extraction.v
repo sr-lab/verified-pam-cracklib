@@ -1,3 +1,4 @@
+Require Import Pam.BoolExtensions.
 Require Import Pam.Functions.MinClass.
 Require Import Pam.Functions.Sequence.
 Require Import Pam.Functions.Palindrome.
@@ -11,4 +12,4 @@ Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
 Extraction Language Haskell.
-Extraction "PamGenerated.hs" palindrome wordcheck minclass sequence consecutive levenshtein_distance.
+Extraction "PamGenerated.hs" bool_to_nat palindrome wordcheck minclass sequence consecutive levenshtein_distance.

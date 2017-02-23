@@ -13,6 +13,6 @@ import PamGenerated
 
 -- TODO: can I get rid of the unsafePerformIO?
 palindrome_hs :: CString -> CInt
-palindrome_hs = fromIntegral . boolToNat . palindrome . unsafePerformIO . peekCString
+palindrome_hs = fromIntegral . bool_to_nat . palindrome . unsafePerformIO . peekCString
  
 foreign export ccall palindrome_hs :: CString -> CInt
