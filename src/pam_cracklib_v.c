@@ -78,8 +78,8 @@ extern char *FascistCheck(char *pw, const char *dictpath);
 /* verified code */
 #include <HsFFI.h>
 #ifdef __GLASGOW_HASKELL__
-#include "PalindromeInterface_stub.h"
-extern void __stginit_PalindromeInterface(void);
+#include "PamInterface_stub.h"
+extern void __stginit_PamInterface(void);
 #endif
 
 /*
@@ -226,7 +226,7 @@ static int palindrome(const char *new)
 {
      hs_init(NULL, NULL);
 #ifdef __GLASGOW_HASKELL__
-    hs_add_root(__stginit_PalindromeInterface);
+    hs_add_root(__stginit_PamInterface);
 #endif
 
     int i;
