@@ -10,7 +10,7 @@ Require Import Pam.AsciiExtensions.
 Definition indicator (a b : string) (i j : nat) : nat :=
   bool_to_nat (negb (beq_option_ascii (get (i - 1) a) (get (j - 1) b))).
 
-( The Levenshtein distance function. Returns the number of insertions, deletions
+(* The Levenshtein distance function. Returns the number of insertions, deletions
   and substitutions required to go from one string to another. *)
 Fixpoint levenshtein (a b : string) (i j n : nat) : nat :=
   match i, j, n with
