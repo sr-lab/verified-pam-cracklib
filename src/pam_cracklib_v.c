@@ -224,15 +224,7 @@ _pam_parse (pam_handle_t *pamh, struct cracklib_options *opt,
  */
 static int palindrome(const char *new)
 {
-     hs_init(NULL, NULL);
-#ifdef __GLASGOW_HASKELL__
-    hs_add_root(__stginit_PamInterface);
-#endif
-
-    int i;
-    i = palindrome_hs(new);
-    hs_exit();
-    return i;
+    return palindrome_hs(new);
 }
 
 /*
@@ -738,6 +730,11 @@ static int _pam_unix_approve_pass(pam_handle_t *pamh,
 int
 pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 {
+	hs_init(NULL, NULL);
+#ifdef __GLASGOW_HASKELL__
+    hs_add_root(__stginit_PamInterface);
+#endif
+	
     unsigned int ctrl;
     struct cracklib_options options;
 
@@ -759,6 +756,7 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
         /* Check for passwd dictionary */
         /* We cannot do that, since the original path is compiled
 	   into the cracklib library and we don't know it.  */
+		hs_exit();
         return PAM_SUCCESS;
     } else if (flags & PAM_UPDATE_AUTHTOK) {
         int retval;
@@ -797,6 +795,7 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 		       pam_strerror (pamh, retval));
 	    continue;
 	  } else if (newtoken == NULL) {      /* user aborted password change, quit */
+		hs_exit();
 	    return PAM_AUTHTOK_ERR;
 	  }
 
@@ -836,9 +835,11 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	    pam_set_item(pamh, PAM_AUTHTOK, NULL);
 	    continue;
 	  } else if (newtoken == NULL) {      /* user aborted password change, quit */
+		hs_exit();
 	    return PAM_AUTHTOK_ERR;
 	  }
 
+		hs_exit();
 	  return PAM_SUCCESS;
         }
 
@@ -849,17 +850,25 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	/* if we have only one try, we can use the real reason,
 	   else say that there were too many tries. */
 	if (options.retry_times > 1)
+		
+    hs_exit();
 	  return PAM_MAXTRIES;
 	else
+		
+    hs_exit();
 	  return retval;
 
     } else {
         if (ctrl & PAM_DEBUG_ARG)
             pam_syslog(pamh, LOG_NOTICE, "UNKNOWN flags setting %02X",flags);
+		
+    hs_exit();
         return PAM_SERVICE_ERR;
     }
-
+	
     /* Not reached */
+	
+    hs_exit();
     return PAM_SERVICE_ERR;
 }
 
