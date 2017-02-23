@@ -466,39 +466,13 @@ static int sequence(struct cracklib_options *opt, const char *new)
     return 0;
 }
 
-static int wordcheck(const char *new, char *word)
-{
-    char *f, *b;
-
-    if (strstr(new, word) != NULL)
-	return 1;
-
-    /* now reverse the word, we can do that in place
-       as it is strdup-ed */
-    f = word;
-    b = word+strlen(word)-1;
-    while (f < b) {
-	char c;
-
-	c = *f;
-	*f = *b;
-	*b = c;
-	--b;
-	++f;
-    }
-
-    if (strstr(new, word) != NULL)
-	return 1;
-    return 0;
-}
-
 static int usercheck(struct cracklib_options *opt, const char *new,
 		     char *user)
 {
     if (!opt->reject_user)
         return 0;
 
-    return wordcheck(new, user);
+    return wordcheck_hs(new, user);
 }
 
 static char * str_lower(char *string)
@@ -542,7 +516,7 @@ static int gecoscheck(pam_handle_t *pamh, struct cracklib_options *opt, const ch
 
          if (strlen(p) >= CO_MIN_WORD_LENGTH) {
              str_lower(p);
-             if (wordcheck(new, p)) {
+             if (wordcheck_hs(new, p)) {
                  free(list);
                  return 1;
              }
