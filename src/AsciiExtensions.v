@@ -15,7 +15,7 @@ Proof.
   rewrite <- ascii_N_embedding with (a := c2).
   f_equal.
   now apply N.compare_eq_iff.
-Qed. 
+Qed.
 
 (* Boolean equality for ASCII characters. *)
 Definition beq_ascii (c1 c2 : ascii) : bool :=
@@ -24,11 +24,20 @@ Definition beq_ascii (c1 c2 : ascii) : bool :=
     | _ => false
   end.
 
+(* Boolean equality for option ASCII characters. *)
+Definition beq_option_ascii (c1 c2 : option ascii) : bool :=
+  match c1, c2 with
+    | None, None => true
+    | Some c1', Some c2' => beq_ascii c1' c2'
+    | _, _ => false
+  end.
+
 (* Returns true if a given ASCII character is upper case, otherwise returns 
    false. *)
 Definition is_lower (c : ascii) : bool :=
   let n := nat_of_ascii c in
     andb (leb 97 n) (leb n 122).
+
 
 (* Returns true if a given ASCII character is lower case, otherwise returns 
    false. *)
