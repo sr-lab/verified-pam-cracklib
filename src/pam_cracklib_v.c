@@ -319,61 +319,6 @@ static int simple(struct cracklib_options *opt, const char *new)
     return 1;
 }
 
-static int consecutive(struct cracklib_options *opt, const char *new)
-{
-    char c;
-    int i;
-    int same;
-
-    if (opt->max_repeat == 0)
-	return 0;
-
-    for (i = 0; new[i]; i++) {
-	if (i > 0 && new[i] == c) {
-	    ++same;
-	    if (same > opt->max_repeat)
-		return 1;
-	} else {
-	    c = new[i];
-	    same = 1;
-	}
-    }
-    return 0;
-}
-
-static int sequence(struct cracklib_options *opt, const char *new)
-{
-    char c;
-    int i;
-    int sequp = 1;
-    int seqdown = 1;
-
-    if (opt->max_sequence == 0)
-	return 0;
-
-    if (new[0] == '\0')
-        return 0;
-
-    for (i = 1; new[i]; i++) {
-        c = new[i-1];
-	if (new[i] == c+1) {
-	    ++sequp;
-	    if (sequp > opt->max_sequence)
-		return 1;
-	    seqdown = 1;
-	} else if (new[i] == c-1) {
-	    ++seqdown;
-	    if (seqdown > opt->max_sequence)
-		return 1;
-	    sequp = 1;
-	} else {
-	    sequp = 1;
-            seqdown = 1;
-        }
-    }
-    return 0;
-}
-
 static char * str_lower(char *string)
 {
 	char *cp;
@@ -487,10 +432,10 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	if (!msg && minclass_hs(new, opt->min_class))
 	        msg = _("not enough character classes");
 
-	if (!msg && consecutive(opt, new))
+	if (!msg && consecutive(new, opt->max_repeat))
 	        msg = _("contains too many same characters consecutively");
 
-	if (!msg && sequence(opt, new))
+	if (!msg && sequence(new, opt->max_sequence))
 	        msg = _("contains too long of a monotonic character sequence");
 
 	if (!msg && ((opt->reject_user && wordcheck_hs(newmono, usermono)) || gecoscheck(pamh, opt, newmono, user)))
