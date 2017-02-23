@@ -432,10 +432,10 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	if (!msg && minclass_hs(new, opt->min_class))
 	        msg = _("not enough character classes");
 
-	if (!msg && consecutive(new, opt->max_repeat))
+	if (!msg && consecutive_hs(new, opt->max_repeat))
 	        msg = _("contains too many same characters consecutively");
 
-	if (!msg && sequence(new, opt->max_sequence))
+	if (!msg && sequence_hs(new, opt->max_sequence))
 	        msg = _("contains too long of a monotonic character sequence");
 
 	if (!msg && ((opt->reject_user && wordcheck_hs(newmono, usermono)) || gecoscheck(pamh, opt, newmono, user)))
