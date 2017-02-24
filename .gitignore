@@ -14,3 +14,5 @@ _CoqProject
 # Generated Makefile
 /src/Makefile_Coq
 
+# Generated Haskell
+*Generated.hs
