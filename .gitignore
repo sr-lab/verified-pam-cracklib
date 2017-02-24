@@ -3,8 +3,12 @@
 *.glob
 *.v.d
 *.vo.aux
+*.o
+*.so
+*.hi
+*_stub.h
 
-# Generated project file
+# Generated project files
 _CoqProject
 
 # Generated Makefile
