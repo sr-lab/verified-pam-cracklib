@@ -5,5 +5,5 @@ Require Import Pam.AsciiExtensions.
 Require Import Pam.Functions.Sequence.
 
 Definition simple (s : string) (m : nat) : bool :=
-  ltb (sequence_of s is_same_class 0) m.
+  ltb (sequence_of s is_same_class 0) m. (* TODO: Credits *)
 
