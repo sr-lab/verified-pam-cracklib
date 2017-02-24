@@ -24,6 +24,20 @@ Definition beq_ascii (c1 c2 : ascii) : bool :=
     | _ => false
   end.
 
+(* Boolean less than for ASCII characters. *)
+Definition blt_ascii (c1 c2 : ascii) : bool :=
+  match compare_ascii c1 c2 with
+    | Lt => true
+    | _ => false
+  end.
+
+(* Boolean greater than for ASCII characters. *)
+Definition bgt_ascii (c1 c2 : ascii) : bool :=
+  match compare_ascii c1 c2 with
+    | Gt => true
+    | _ => false
+  end.
+
 (* Boolean equality for option ASCII characters. *)
 Definition beq_option_ascii (c1 c2 : option ascii) : bool :=
   match c1, c2 with
