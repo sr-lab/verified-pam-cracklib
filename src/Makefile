@@ -1,3 +1,4 @@
+# Override shell executable from sh to bash
 SHELL:=/bin/bash
 
 main:
