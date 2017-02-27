@@ -5,6 +5,8 @@ Require Import Coq.Strings.Ascii.
 Definition compare_ascii (a b : ascii) : comparison  :=
   N.compare (N_of_ascii a) (N_of_ascii b).
 
+(* TODO: Prove this implies equality. *)
+
 (* Boolean equality for ASCII characters. *)
 Definition beq_ascii (a b : ascii) : bool :=
   match compare_ascii a b with
