@@ -14,7 +14,7 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
 
 (* Returns true if two strings are equivalent, disregarding case, otherwise 
    returns false. *)
-Fixpoint string_eq_ignorecase (s1 s2 : string) : bool :=
+Definition beq_string_ignorecase (s1 s2 : string) : bool :=
   string_eqb (string_to_lower s1) (string_to_lower s2).
 
 (* Equality notations module for ASCII strings. *)
