@@ -48,6 +48,9 @@ Module AsciiEqualityNotations.
   (* Boolean equality operator. *)
   Notation "a ==_a b" := (beq_ascii a b) (at level 30).
 
+  (* Boolean equality operator (including option). *)
+  Notation "a ?==_a b" := (beq_option_ascii a b) (at level 30).
+
   (* Boolean less than operator. *)
   Notation "a <_a b" := (blt_ascii a b) (at level 30).
 
