@@ -42,19 +42,22 @@ Definition beq_option_ascii (a b : option ascii) : bool :=
     | _, _ => false
   end.
 
+(* Equality notations module for ASCII characters. *)
+Module AsciiEqualityNotations.
 
-  (* Boolean equality operator for ASCII characters. *)
-  Notation "a ==_a b" := (beq_ascii a b) (at level 50).
+  (* Boolean equality operator. *)
+  Notation "a ==_a b" := (beq_ascii a b) (at level 30).
 
-  (* Boolean less than operator for ASCII characters. *)
-  Notation "a <_a b" := (blt_ascii a b) (at level 50).
+  (* Boolean less than operator. *)
+  Notation "a <_a b" := (blt_ascii a b) (at level 30).
 
-  (* Boolean less than or equal to operator for ASCII characters. *)
-  Notation "a <=_a b" := (orb (blt_ascii a b) (beq_ascii a b)) (at level 50).
+  (* Boolean less than or equal to operator. *)
+  Notation "a <=_a b" := (orb (blt_ascii a b) (beq_ascii a b)) (at level 30).
 
-  (* Boolean greater than operator for ASCII characters. *)
-  Notation "a >_a b" := (bgt_ascii a b) (at level 50).
+  (* Boolean greater than operator. *)
+  Notation "a >_a b" := (bgt_ascii a b) (at level 30).
 
-  (* Boolean greater than or equal to operator for ASCII characters. *)
-  Notation "a >=_a b" := (bgeq_ascii a b) (at level 50).
+  (* Boolean greater than or equal to operator. *)
+  Notation "a >=_a b" := (bgeq_ascii a b) (at level 30).
 
+End AsciiEqualityNotations.
