@@ -15,3 +15,10 @@ Fixpoint string_to_upper (s : string) : string :=
   | EmptyString => s
   | String c s => String (to_upper c) (string_to_upper s)
   end.
+
+(* Returns a string, reversed. *)
+Fixpoint string_reverse (s : string) : string :=
+  match s with
+  | EmptyString => EmptyString
+  | String c s' => append (string_reverse s') (String c EmptyString)
+  end.

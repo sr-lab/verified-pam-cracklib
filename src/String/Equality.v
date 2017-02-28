@@ -1,7 +1,7 @@
 Require Import Coq.Strings.String.
 
 Require Import Pamba.Ascii.Equality.
-Require Import Pamba.String.Case.
+Require Import Pamba.String.Transform.
 
 Import AsciiEqualityNotations.
 

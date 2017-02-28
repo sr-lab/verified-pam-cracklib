@@ -1,6 +1,7 @@
 Require Import Coq.Strings.String.
 
 Require Import Pamba.String.Equality.
+Require Import Pamba.String.Transform.
 
 Import StringEqualityNotations.
 
