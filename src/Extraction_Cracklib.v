@@ -1,3 +1,4 @@
+Require Import Coq.Init.Nat.
 Require Import Coq.Strings.String.
 
 (* Import functions from framework. *)
