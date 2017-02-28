@@ -16,7 +16,7 @@ Require Import ExtrHaskellString.
 (* Define functions used in pam_cracklib. *)
 
 Definition palindrome_c (s : string) : nat :=
-  nat_of_bool (palindrome h n).
+  nat_of_bool (palindrome s).
 
 Definition wordcheck_c (h n : string) : nat :=
   nat_of_bool (contains h n).
