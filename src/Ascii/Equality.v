@@ -16,6 +16,15 @@ Proof.
   now apply N.compare_eq_iff.
 Qed.                         
 
+(* Prove that comparing an ASCII character to itself gives Eq. *)
+Lemma compare_ascii_same : forall (a : ascii),
+  compare_ascii a a = Eq.
+Proof.
+  intro x.
+  unfold compare_ascii.
+  now apply N.compare_eq_iff.
+Qed.
+
 (* Boolean equality for ASCII characters. *)
 Definition beq_ascii (a b : ascii) : bool :=
   match compare_ascii a b with
