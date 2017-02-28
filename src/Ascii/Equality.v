@@ -6,7 +6,7 @@ Definition compare_ascii (a b : ascii) : comparison  :=
   N.compare (N_of_ascii a) (N_of_ascii b).
 
 (* Prove that the compare_ascii function implies the equality of two ASCII characters. *)
-Theorem compare_ascii_implies_equality : forall (a b: ascii),
+Theorem compare_ascii_implies_equality : forall (a b : ascii),
   (compare_ascii a b) = Eq -> a = b.
 Proof.
   intros.
@@ -17,7 +17,7 @@ Proof.
 Qed.                         
 
 (* Prove that comparing an ASCII character to itself gives Eq. *)
-Lemma compare_ascii_same : forall (a : ascii),
+Lemma compare_ascii_reflexive : forall (a : ascii),
   compare_ascii a a = Eq.
 Proof.
   intro x.
