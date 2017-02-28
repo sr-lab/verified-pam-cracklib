@@ -2,8 +2,8 @@ Require Import Coq.Arith.EqNat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-Require Import Pamba.Bool.Bool.
-Require Import Pamba.Ascii.Equality.
+Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.Ascii.Equality.
 
 Import AsciiEqualityNotations.
 

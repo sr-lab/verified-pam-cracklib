@@ -1,6 +1,6 @@
 Require Import Coq.Strings.String.
 
-Require Import Pamba.Ascii.Class.
+Require Import Hapsl.Ascii.Class.
 
 (* Converts a string to lower case. *)
 Fixpoint string_to_lower (s : string) : string :=		

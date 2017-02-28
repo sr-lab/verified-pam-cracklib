@@ -2,11 +2,11 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.String.
 
 (* Import functions from framework. *)
-Require Import Pamba.Bool.Bool.
-Require Import Pamba.String.Distance.
-Require Import Pamba.String.Search.
-Require Import Pamba.String.Sequence.
-Require Import Pamba.String.Palindrome.
+Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.String.Distance.
+Require Import Hapsl.String.Search.
+Require Import Hapsl.String.Sequence.
+Require Import Hapsl.String.Palindrome.
 
 (* The following imports are useful for extracting Haskell code. *)
 Require Import ExtrHaskellBasic.

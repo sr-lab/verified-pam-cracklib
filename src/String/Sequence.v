@@ -3,8 +3,8 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-Require Import Pamba.Bool.Bool.
-Require Import Pamba.Ascii.Equality.
+Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.Ascii.Equality.
 
 (* Returns true if one character is exactly one more than another, otherwise 
    returns false. *)

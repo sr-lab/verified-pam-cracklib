@@ -3,7 +3,7 @@ SHELL:=/bin/bash
 
 main:
 	# Compile and make Coq project
-	( echo "-R . Pamba" ; find . -name "*.v" -print ) > _CoqProject
+	( echo "-R . Hapsl" ; find . -name "*.v" -print ) > _CoqProject
 	coq_makefile -f _CoqProject -o Makefile_Coq
 	make -f Makefile_Coq
 

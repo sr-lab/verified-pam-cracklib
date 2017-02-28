@@ -1,6 +1,6 @@
 Require Import Coq.Strings.Ascii.
 
-Require Import Pamba.Ascii.Equality.
+Require Import Hapsl.Ascii.Equality.
 
 Import AsciiEqualityNotations.
 

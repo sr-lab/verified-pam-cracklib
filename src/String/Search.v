@@ -3,9 +3,9 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Strings.String.
 
-Require Import Pamba.Ascii.Class.
-Require Import Pamba.Bool.Bool.
-Require Import Pamba.String.Equality.
+Require Import Hapsl.Ascii.Class.
+Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.String.Equality.
 
 Import StringEqualityNotations.
 

@@ -1,7 +1,7 @@
 Require Import Coq.Strings.String.
 
-Require Import Pamba.String.Equality.
-Require Import Pamba.String.Transform.
+Require Import Hapsl.String.Equality.
+Require Import Hapsl.String.Transform.
 
 Import StringEqualityNotations.
 
