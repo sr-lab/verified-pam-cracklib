@@ -5,7 +5,16 @@ Require Import Coq.Strings.Ascii.
 Definition compare_ascii (a b : ascii) : comparison  :=
   N.compare (N_of_ascii a) (N_of_ascii b).
 
-(* TODO: Prove this implies equality. *)
+(* Prove that the compare_ascii function implies the equality of two ASCII characters. *)
+Theorem compare_ascii_implies_equality : forall (a b: ascii),
+  (compare_ascii a b) = Eq -> a = b.
+Proof.
+  intros.
+  rewrite <- ascii_N_embedding with (a := a).
+  rewrite <- ascii_N_embedding with (a := b).
+  f_equal.
+  now apply N.compare_eq_iff.
+Qed.                         
 
 (* Boolean equality for ASCII characters. *)
 Definition beq_ascii (a b : ascii) : bool :=
