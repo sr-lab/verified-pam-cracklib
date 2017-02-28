@@ -57,7 +57,7 @@ Module AsciiEqualityNotations.
   Notation "a <_a b" := (blt_ascii a b) (at level 30).
 
   (* Boolean less than or equal to operator. *)
-  Notation "a <=_a b" := (orb (blt_ascii a b) (beq_ascii a b)) (at level 30).
+  Notation "a <=_a b" := (bleq_ascii a b) (at level 30).
 
   (* Boolean greater than operator. *)
   Notation "a >_a b" := (bgt_ascii a b) (at level 30).
