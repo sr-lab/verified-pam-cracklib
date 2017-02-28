@@ -19,7 +19,7 @@ minclass_hs :: CString -> CInt -> CInt
 minclass_hs s m = (fromIntegral (minclass_c (unsafePerformIO (peekCString s)) (fromIntegral m)))
  
 wordcheck_hs :: CString -> CString -> CInt
-wordcheck_hs h n = (fromIntegral (wordcheck_c (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)))))
+wordcheck_hs h n = (fromIntegral (wordcheck_c (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n))))
  
 similar_hs :: CString -> CString -> CInt -> CInt
 similar_hs h n d = (fromIntegral (similar_c (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)) (fromIntegral d)))
