@@ -13,22 +13,22 @@ import PamGenerated
 
 -- TODO: can I get rid of the unsafePerformIO?
 palindrome_hs :: CString -> CInt
-palindrome_hs = fromIntegral . bool_to_nat . palindrome . unsafePerformIO . peekCString
+palindrome_hs = fromIntegral . bool_to_nat . palindrome_c . unsafePerformIO . peekCString
 
 minclass_hs :: CString -> CInt -> CInt
-minclass_hs s m = (fromIntegral (bool_to_nat (minclass (unsafePerformIO (peekCString s)) (fromIntegral m))))
+minclass_hs s m = (fromIntegral (bool_to_nat (minclass_c (unsafePerformIO (peekCString s)) (fromIntegral m))))
  
 wordcheck_hs :: CString -> CString -> CInt
-wordcheck_hs h n = (fromIntegral (bool_to_nat (wordcheck (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)))))
+wordcheck_hs h n = (fromIntegral (bool_to_nat (wordcheck_c (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)))))
  
 similar_hs :: CString -> CString -> CInt -> CInt
-similar_hs h n d = (fromIntegral (bool_to_nat (similar (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)) (fromIntegral d))))
+similar_hs h n d = (fromIntegral (bool_to_nat (similar_c (unsafePerformIO (peekCString h)) (unsafePerformIO (peekCString n)) (fromIntegral d))))
  
 sequence_hs :: CString -> CInt -> CInt
 sequence_hs s m = (fromIntegral (bool_to_nat (sequence_c (unsafePerformIO (peekCString s)) (fromIntegral m))))
  
 consecutive_hs :: CString -> CInt -> CInt
-consecutive_hs s m = (fromIntegral (bool_to_nat (consecutive (unsafePerformIO (peekCString s)) (fromIntegral m))))
+consecutive_hs s m = (fromIntegral (bool_to_nat (consecutive_c (unsafePerformIO (peekCString s)) (fromIntegral m))))
 
 foreign export ccall palindrome_hs :: CString -> CInt
 foreign export ccall minclass_hs :: CString -> CInt -> CInt
