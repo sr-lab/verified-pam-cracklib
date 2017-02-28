@@ -1,3 +1,5 @@
+Require Import Coq.Strings.String.
+
 (* Import functions from framework. *)
 Require Import Pamba.Bool.Bool.
 Require Import Pamba.String.Distance.
