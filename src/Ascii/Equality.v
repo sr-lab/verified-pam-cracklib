@@ -1,3 +1,4 @@
+Require Import Coq.Bool.Bool.
 Require Import Coq.NArith.NArith.
 Require Import Coq.Strings.Ascii.
 
@@ -31,6 +32,15 @@ Definition beq_ascii (a b : ascii) : bool :=
     | Eq => true
     | _ => false
   end.
+
+Lemma beq_ascii_reflexive : forall (a : ascii),
+    Is_true (beq_ascii a a).
+Proof.
+  intros.
+  unfold beq_ascii.
+  rewrite -> compare_ascii_reflexive.
+  reflexivity.
+Qed.
 
 (* Boolean less than for ASCII characters. *)
 Definition blt_ascii (a b : ascii) : bool :=
