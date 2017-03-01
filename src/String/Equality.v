@@ -1,3 +1,4 @@
+Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
 Require Import Hapsl.Ascii.Equality.
@@ -12,6 +13,19 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
   | String c1 s1', String c2 s2' => andb (c1 ==_a c2) (beq_string s1' s2')
   | _, _ => false
   end.
+
+Lemma beq_string_reflexive : forall (s : string),
+    Is_true (beq_string s s).
+Proof.
+  intros.
+  induction s as [| h tail IH].
+  - reflexivity.
+  - intros.
+    unfold beq_string.
+    unfold "==_a".
+    rewrite -> compare_ascii_reflexive.
+    simpl.
+    auto.
 
 (* Returns true if two strings are equivalent, disregarding case, otherwise 
    returns false. *)
