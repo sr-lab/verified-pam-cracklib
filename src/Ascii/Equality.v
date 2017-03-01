@@ -15,7 +15,7 @@ Proof.
   rewrite <- ascii_N_embedding with (a := b).
   f_equal.
   now apply N.compare_eq_iff.
-Qed.                         
+Qed.
 
 (* Prove that comparing an ASCII character to itself gives Eq. *)
 Lemma compare_ascii_reflexive : forall (a : ascii),
@@ -34,7 +34,7 @@ Definition beq_ascii (a b : ascii) : bool :=
   end.
 
 Lemma beq_ascii_reflexive : forall (a : ascii),
-    Is_true (beq_ascii a a).
+  Is_true (beq_ascii a a).
 Proof.
   intros.
   unfold beq_ascii.
