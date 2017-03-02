@@ -59,35 +59,38 @@ Proof.
 Qed.
 
 (* Prove that string reverse/append is distributive. *)
-Theorem string_reverse_append_distributive : forall (x y : string),
-  string_reverse (x +=_s y) = string_reverse y +=_s string_reverse x.
+Theorem string_reverse_append_distributive : forall (a b : string),
+  string_reverse (a +=_s b) = string_reverse b +=_s string_reverse a.
 Proof.
-  induction x as [| a l IHl].
-  + destruct y.
+  induction a as [| c a'].
+  + destruct b.
     - simpl. reflexivity.
     - simpl.
       rewrite append_empty_reflexive.
       reflexivity.
   + intros.
     simpl.
-    rewrite -> IHl.
+    rewrite -> IHa'.
     rewrite <- append_associative.
     reflexivity.
 Qed.
 
-(*Lemma string_reverse_unit : forall (s : string) (c : ascii),
-  string_reverse (String c s) = (string_reverse s) +=_s (String c EmptyString).
+(* Remark on the behavior of one unit of string reversal. *)
+Remark string_reverse_unit : forall (s : string) (c : ascii),
+  string_reverse (s +=_s (String c EmptyString)) = (String c EmptyString) +=_s string_reverse s.
 Proof.
   intros.
-  simpl.
-  reflexivity.
+  apply (string_reverse_append_distributive s (String c EmptyString)).
 Qed.
 
-Lemma string_reverse_involutive : forall (l : string),
-  string_reverse (string_reverse l) = l.
+(* Prove that string reversal is involutive. *)
+Lemma string_reverse_involutive : forall (s : string),
+  string_reverse (string_reverse s) = s.
 Proof.
-  induction l as [| a l IHl].
-  + simpl; auto.
-  + rewrite (string_reverse_unit (string_reverse l) a).
-rewrite IHl; auto.
-Qed.*)
+  induction s as [| c s'].
+  + simpl. reflexivity.
+  + simpl.
+    rewrite (string_reverse_unit (string_reverse s') c).
+    rewrite IHs'.
+    auto.
+Qed.
