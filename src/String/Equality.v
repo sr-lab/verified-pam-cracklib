@@ -14,18 +14,20 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
   | _, _ => false
   end.
 
+(* Proves the reflexivity of boolean string equality. *)
 Lemma beq_string_reflexive : forall (s : string),
-    Is_true (beq_string s s).
+  Is_true (beq_string s s).
 Proof.
   intros.
   induction s as [| h tail IH].
-  - reflexivity.
-  - intros.
+  + reflexivity.
+  + intros.
     unfold beq_string.
     unfold "==_a".
     rewrite -> compare_ascii_reflexive.
     simpl.
     auto.
+Qed.
 
 (* Returns true if two strings are equivalent, disregarding case, otherwise 
    returns false. *)
