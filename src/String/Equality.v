@@ -21,11 +21,9 @@ Proof.
   intros.
   induction s as [| h tail IH].
   + reflexivity.
-  + intros.
-    unfold beq_string.
+  + unfold beq_string.
     unfold "==_a".
     rewrite -> compare_ascii_reflexive.
-    simpl.
     auto.
 Qed.
 
