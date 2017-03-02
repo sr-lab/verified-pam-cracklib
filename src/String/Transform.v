@@ -84,7 +84,7 @@ Proof.
 Qed.
 
 (* Prove that string reversal is involutive. *)
-Lemma string_reverse_involutive : forall (s : string),
+Theorem string_reverse_involutive : forall (s : string),
   string_reverse (string_reverse s) = s.
 Proof.
   induction s as [| c s'].
