@@ -2,7 +2,6 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
 Require Import Hapsl.Ascii.Equality.
-Require Import Hapsl.String.Transform.
 
 Import AsciiEqualityNotations.
 
@@ -16,7 +15,7 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
 
 (* Proves the reflexivity of boolean string equality. *)
 Lemma beq_string_reflexive : forall (s : string),
-  Is_true (beq_string s s).
+  Is_true (beq_string s s) = True.
 Proof.
   intros.
   induction s as [| h tail IH].
@@ -27,15 +26,17 @@ Proof.
     auto.
 Qed.
 
-(* Returns true if two strings are equivalent, disregarding case, otherwise 
-   returns false. *)
-Definition beq_string_ignorecase (s1 s2 : string) : bool :=
-  beq_string (string_to_lower s1) (string_to_lower s2).
-
 (* Equality notations module for ASCII strings. *)
 Module StringEqualityNotations.
 
   (* String equality operator. *)
   Notation "a ==_s b" := (beq_string a b) (at level 30).
+
+  (* Allow rewriting of the string equality operator. *)
+  Lemma beq_string_notation : forall (a b : string),
+      a ==_s b = (beq_string a b).
+  Proof.
+    reflexivity.
+  Qed.
 
 End StringEqualityNotations.
