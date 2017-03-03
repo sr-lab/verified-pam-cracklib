@@ -26,6 +26,10 @@ Proof.
   now apply N.compare_eq_iff.
 Qed.
 
+(* TODO: Symmetry of compare_ascii_eq? *)
+
+(* TODO: Transitivity of compare_ascii_eq? *)
+
 (* Boolean equality for ASCII characters. *)
 Definition beq_ascii (a b : ascii) : bool :=
   match compare_ascii a b with
@@ -33,6 +37,7 @@ Definition beq_ascii (a b : ascii) : bool :=
     | _ => false
   end.
 
+(* Prove boolean equality for ASCII characters is reflexive. *)
 Lemma beq_ascii_reflexive : forall (a : ascii),
   beq_ascii a a = true.
 Proof.
@@ -41,6 +46,10 @@ Proof.
   rewrite -> compare_ascii_reflexive.
   reflexivity.
 Qed.
+
+(* TODO: Symmetry of beq_ascii? *)
+
+(* TODO: Transitivity of beq_ascii? *)
 
 (* Boolean less than for ASCII characters. *)
 Definition blt_ascii (a b : ascii) : bool :=
@@ -64,6 +73,8 @@ Definition bgt_ascii (a b : ascii) : bool :=
 Definition bgeq_ascii (a b : ascii) : bool :=
   orb (bgt_ascii a b) (beq_ascii a b).
 
+(* TODO: Proofs for blt_ascii, bleq_ascii, bgt_ascii, bgeq_ascii. *)
+
 (* Boolean equality for option ASCII characters. *)
 Definition beq_option_ascii (a b : option ascii) : bool :=
   match a, b with
@@ -72,9 +83,11 @@ Definition beq_option_ascii (a b : option ascii) : bool :=
     | _, _ => false
   end.
 
+(* TODO: Proofs for beq_option_ascii. *)
+
 (* Equality notations module for ASCII characters. *)
 Module AsciiEqualityNotations.
-
+  
   (* Boolean equality operator. *)
   Notation "a ==_a b" := (beq_ascii a b) (at level 30).
 
