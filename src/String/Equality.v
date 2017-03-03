@@ -5,6 +5,7 @@ Require Import Hapsl.Ascii.Equality.
 
 Import AsciiEqualityNotations.
 
+
 (* Returns true if two strings are equivalent, otherwise returns false. *)
 Fixpoint beq_string (s1 s2 : string) : bool :=
   match s1, s2 with
@@ -15,7 +16,7 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
 
 (* Proves the reflexivity of boolean string equality. *)
 Lemma beq_string_reflexive : forall (s : string),
-  Is_true (beq_string s s) = True.
+  beq_string s s = true.
 Proof.
   intros.
   induction s as [| h tail IH].
