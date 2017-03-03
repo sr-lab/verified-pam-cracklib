@@ -21,8 +21,7 @@ Proof.
   induction s as [| h tail IH].
   + reflexivity.
   + unfold beq_string.
-    unfold "==_a".
-    rewrite -> compare_ascii_reflexive.
+    rewrite beq_ascii_reflexive.
     auto.
 Qed.
 
@@ -31,12 +30,5 @@ Module StringEqualityNotations.
 
   (* String equality operator. *)
   Notation "a ==_s b" := (beq_string a b) (at level 30).
-
-  (* Allow rewriting of the string equality operator. *)
-  Lemma beq_string_notation : forall (a b : string),
-      a ==_s b = (beq_string a b).
-  Proof.
-    reflexivity.
-  Qed.
 
 End StringEqualityNotations.

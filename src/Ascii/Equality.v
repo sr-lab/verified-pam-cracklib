@@ -34,7 +34,7 @@ Definition beq_ascii (a b : ascii) : bool :=
   end.
 
 Lemma beq_ascii_reflexive : forall (a : ascii),
-  Is_true (beq_ascii a a).
+  beq_ascii a a = true.
 Proof.
   intros.
   unfold beq_ascii.
