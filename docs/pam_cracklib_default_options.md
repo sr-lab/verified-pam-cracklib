@@ -46,6 +46,15 @@ relevant options, with two notable notable exception `CO_MIN_LENGTH_BASE` and
 #define CO_MIN_WORD_LENGTH 4
 ```
 
+Additionally, the location of the cracklib dictionaries are defined as `NULL` if
+not predefined:
+
+```c
+#ifndef CRACKLIB_DICTS
+#define CRACKLIB_DICTS NULL
+#endif
+```
+
 See the table below for mappings beween these constants and option structure
 values.
 
