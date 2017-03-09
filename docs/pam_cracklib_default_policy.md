@@ -20,9 +20,9 @@ Passwords must:
       
 The options below map to the assertions above:
 
-[1] - `difok=5`
-[2] - `minlen=9`
-[3] - `lcredit=1`
-[4] - `ucredit=1`
-[5] - `dcredit=1`
-[6] - `ocredit=1`
+* [1] - `difok=5`
+* [2] - `minlen=9`
+* [3] - `lcredit=1`
+* [4] - `ucredit=1`
+* [5] - `dcredit=1`
+* [6] - `ocredit=1`
