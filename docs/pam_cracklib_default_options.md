@@ -1,8 +1,8 @@
 # Overview
 An overview of this module's details is presented below:
 
-* Module name: pam_cracklib
-* Main file: pam_cracklib.c
+* __Module name:__ pam_cracklib
+* __Main file:__ pam_cracklib.c
 
 # Configuration
 This module takes several options, and contains a structure `cracklib_options` 
