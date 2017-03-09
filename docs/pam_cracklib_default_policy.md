@@ -1,8 +1,8 @@
 # Default Policy 
 Passwords must:
 
-* Have a Levenshtein distance of 5 or greater from the previous password, if any
-  [1]
+* Have a Levenshtein distance of 5 or greater from the previous password, if 
+  any. [1]
 * Be at least 9 characters long [2], however:
     + Passwords may be 1 character shorter if they contain at least 1 lower case
       letter. [3]
