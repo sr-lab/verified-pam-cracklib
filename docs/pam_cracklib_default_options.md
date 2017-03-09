@@ -60,3 +60,31 @@ values.
 | `CO_UP_CREDIT`       | `up_credit`   | `1`             | Default value for uppercase character credits.                                                |
 | `CO_OTH_CREDIT`      | `oth_credit`  | `1`             | Default value for other character credits.                                                    |
 | `CO_MIN_WORD_LENGTH` | `N/A`         | `4`             | Lower limit on word length that, if present in the GECOS file, will cause password rejection. |
+
+There are a number of other options that are not set by default:
+
+| Option              | Default           | Effect                                                                                                            |
+|---------------------|-------------------|-------------------------------------------------------------------------------------------------------------------|
+| `min_class`         | `0`               | Minimum number of character classes check disabled.                                                               |
+| `max_repeat`        | `0`               | Maximum number of character repetitions check disabled.                                                           |
+| `max_sequence`      | `0`               | Maximum number of ascending/descending character sequences check disabled.                                        |
+| `max_class_repeat`  | `0`               | Maximum number of consecutive characters of the same class check disabled.                                        |
+| `reject_user`       | `0`               | Password will not be rejected if identical to the username.                                                       |
+| `gecos_check`       | `0`               | Password containing GECOS entries will not be rejected.                                                           |
+| `enforce_for_root`  | `0`               | Password check will not be enforced for root.                                                                     |
+| `cracklib_dictpath` | `NULL/Predefined` | Will default to the value of the `CRACKLIB_DICTS` constant. Points to location of dictionaries file for cracklib. |
+
+## Initialisation
+These values are initialised in the code (`pam_cracklib.c 739-747`):
+
+```c
+memset(&options, 0, sizeof(options));
+options.retry_times = CO_RETRY_TIMES;
+options.diff_ok = CO_DIFF_OK;
+options.min_length = CO_MIN_LENGTH;
+options.dig_credit = CO_DIG_CREDIT;
+options.up_credit = CO_UP_CREDIT;
+options.low_credit = CO_LOW_CREDIT;
+options.oth_credit = CO_OTH_CREDIT;
+options.cracklib_dictpath = CRACKLIB_DICTS;
+```
