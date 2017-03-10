@@ -1,9 +1,10 @@
+Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
 Require Import Hapsl.Ascii.Equality.
-Require Import Hapsl.String.Transform.
 
 Import AsciiEqualityNotations.
+
 
 (* Returns true if two strings are equivalent, otherwise returns false. *)
 Fixpoint beq_string (s1 s2 : string) : bool :=
@@ -13,10 +14,17 @@ Fixpoint beq_string (s1 s2 : string) : bool :=
   | _, _ => false
   end.
 
-(* Returns true if two strings are equivalent, disregarding case, otherwise 
-   returns false. *)
-Definition beq_string_ignorecase (s1 s2 : string) : bool :=
-  beq_string (string_to_lower s1) (string_to_lower s2).
+(* Proves the reflexivity of boolean string equality. *)
+Lemma beq_string_reflexive : forall (s : string),
+  beq_string s s = true.
+Proof.
+  intros.
+  induction s as [| h tail IH].
+  + reflexivity.
+  + unfold beq_string.
+    rewrite beq_ascii_reflexive.
+    auto.
+Qed.
 
 (* Equality notations module for ASCII strings. *)
 Module StringEqualityNotations.

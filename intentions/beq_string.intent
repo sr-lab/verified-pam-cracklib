@@ -18,4 +18,6 @@
 	+ Conditional (if) [given]
 	+ Get list head (head) [given]
 	+ Get list tail (tail) [given]
+	+ Boolean and (&&) [given]
+	+ Boolean or (||) [given]
 	
