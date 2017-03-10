@@ -7,6 +7,42 @@ Require Import Hapsl.Ascii.Equality.
 
 Import AsciiEqualityNotations.
 
+(* Calculates the Hamming distance between two strings. *)
+Fixpoint hamming_distance (a b : string) : option nat :=
+  match a, b with
+    | EmptyString, EmptyString => Some 0
+    | String ca a', String cb b' =>
+      match hamming_distance a' b' with
+        | None => None
+        | Some n => Some ((nat_of_bool (negb (beq_ascii ca cb))) + n)
+      end
+    | _, _ => None
+  end.
+
+(* TODO: Prove lemma - Hamming distance is undefined for strings with differing lengths. *)
+Lemma hamming_distance_undefined_for_different_lengths : forall (a b : string),
+  length a <> length b -> hamming_distance a b = None.
+Proof.
+  Admitted.
+
+(* TODO: Prove lemma - Hamming distance is defined for strings with the same length. *)
+Lemma hamming_distance_defined_for_same_length : forall (a b : string),
+  length a = length b -> hamming_distance a b <> None.
+Proof.
+  Admitted
+
+(* TODO: Prove lemma - Hamming distance is 0 for identical strings. *)
+Lemma hamming_distance_zero_identical : forall (a b : string),
+  a = b -> hamming_distance a b = Some 0.
+Proof.
+  Admitted.
+
+(* TODO: Prove lemma - Hamming distance is at most string length. *)
+Lemma hamming_distance_at_most_string_length : forall (a b : string),
+  length a = length b -> hamming_distance a b <= length a.
+Proof.
+  Admitted.
+
 (* The Levenshtein indicator function that will return 0 if the character at 
    each given position is each given string is equal, otherwise returns 1. *)
 Definition indicator (a b : string) (i j : nat) : nat :=
@@ -24,7 +60,7 @@ Fixpoint levenshtein (a b : string) (i j n : nat) : nat :=
         ((levenshtein a b i' j' n') + (indicator a b i j)))
   end.
 
-(* Calculates the Levenshtein distance betweem two strings. *)  
+(* Calculates the Levenshtein distance between two strings. *)
 Definition levenshtein_distance (a b : string) : nat :=
   let i := length a in
     let j := length b in
@@ -54,7 +90,7 @@ Proof.
 
 (* TODO: Prove lemma - If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance. *)
 Lemma levenshtein_distance_is_bounded_by_hamming_samelength : forall (a b : string),
-  True. (* TODO: Write lemma. *)
+  length a = length b -> levenshtein_distance a b <= hamming_distance a b. (* TODO: Write lemma. *)
 Proof.
   Admitted.
 
