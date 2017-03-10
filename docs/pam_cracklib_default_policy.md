@@ -30,3 +30,5 @@ The options below map to the assertions above:
 * [4] - `ucredit=1`
 * [5] - `dcredit=1`
 * [6] - `ocredit=1`
+
+The behaviour of `pam_pwquality` is identical to the above by default [as evidenced by the code](https://github.com/cgwalters/libpwquality-git/blob/f835a65d939889e3b36adb9672312dfc7d711c77/src/pwqprivate.h#L36-L41).
