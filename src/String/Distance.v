@@ -30,3 +30,13 @@ Definition levenshtein_distance (a b : string) : nat :=
     let j := length b in
       let n := max i j in
         levenshtein a b i j n.
+
+(* TODO: Lemma - It is always at least the difference of the sizes of the two strings. *)
+
+(* TODO: Lemma - It is zero if and only if the strings are equal. *)
+
+(* TODO: Lemma - If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance. *)
+
+(* TODO: Lemma - It is at most the length of the longer string. *)
+
+(* TODO: Lemma - The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances from a third string (triangle inequality). *)
