@@ -32,7 +32,7 @@ Proof.
   Admitted
 
 (* TODO: Prove lemma - Hamming distance is 0 for identical strings. *)
-Lemma hamming_distance_zero_identical : forall (a b : string),
+Lemma hamming_distance_zero_for_identical : forall (a b : string),
   a = b -> hamming_distance a b = Some 0.
 Proof.
   Admitted.
@@ -77,7 +77,7 @@ Fixpoint string_length_diff (a b : string) : nat :=
   end.
 
 (* TODO: Prove lemma - It is always at least the difference of the sizes of the two strings. *)
-Lemma levenshtein_distance_atleast_length_diff : forall (a b : string),    
+Lemma levenshtein_distance_at_least_length_diff : forall (a b : string),    
   levenshtein_distance a b >= string_length_diff a b.
 Proof.
   Admitted.
@@ -89,7 +89,7 @@ Proof.
   Admitted.
 
 (* TODO: Prove lemma - If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance. *)
-Lemma levenshtein_distance_is_bounded_by_hamming_samelength : forall (a b : string),
+Lemma levenshtein_distance_same_length_leq_hamming : forall (a b : string),
   length a = length b -> levenshtein_distance a b <= hamming_distance a b. (* TODO: Write lemma. *)
 Proof.
   Admitted.
