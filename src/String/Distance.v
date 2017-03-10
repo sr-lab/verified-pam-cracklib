@@ -100,7 +100,7 @@ Lemma levenshtein_distance_leq_longer_string_length : forall (a b : string),
 Proof.
   Admitted.
 
-(* TODO: Proove lemma - The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances from a third string (triangle inequality). *)
+(* TODO: Prove lemma - The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances from a third string (triangle inequality). *)
 Lemma levenshtein_distance_triangle_equality : forall (a b c : string),
   levenshtein_distance a b <= (levenshtein_distance a c) + (levenshtein_distance b c).
 Proof.
