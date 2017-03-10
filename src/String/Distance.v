@@ -19,13 +19,15 @@ Fixpoint hamming_distance (a b : string) : option nat :=
     | _, _ => None
   end.
 
-(* TODO: Prove lemma - Hamming distance is undefined for strings with differing lengths. *)
+(* TODO: Prove lemma - Hamming distance is undefined for strings with differing 
+   lengths. *)
 Lemma hamming_distance_undefined_for_different_lengths : forall (a b : string),
   length a <> length b -> hamming_distance a b = None.
 Proof.
   Admitted.
 
-(* TODO: Prove lemma - Hamming distance is defined for strings with the same length. *)
+(* TODO: Prove lemma - Hamming distance is defined for strings with the same 
+   length. *)
 Lemma hamming_distance_defined_for_same_length : forall (a b : string),
   length a = length b -> hamming_distance a b <> None.
 Proof.
@@ -48,8 +50,8 @@ Proof.
 Definition indicator (a b : string) (i j : nat) : nat :=
   nat_of_bool (negb ((get (i - 1) a) ?==_a (get (j - 1) b))).
 
-(* The Levenshtein distance function. Returns the number of insertions, deletions
-  and substitutions required to go from one string to another. *)
+(* The Levenshtein distance function. Returns the number of insertions, 
+   deletions and substitutions required to go from one string to another. *)
 Fixpoint levenshtein (a b : string) (i j n : nat) : nat :=
   match i, j, n with
     | O, _, _ | _, O, _ | _, _, O => max i j
@@ -76,7 +78,8 @@ Fixpoint string_length_diff (a b : string) : nat :=
     | String ca a', String cb b' => string_length_diff a' b'
   end.
 
-(* TODO: Prove lemma - It is always at least the difference of the sizes of the two strings. *)
+(* TODO: Prove lemma - It is always at least the difference of the sizes of the 
+   two strings. *)
 Lemma levenshtein_distance_at_least_length_diff : forall (a b : string),    
   levenshtein_distance a b >= string_length_diff a b.
 Proof.
@@ -88,20 +91,24 @@ Lemma levenshtein_distance_zero_for_equal_strings : forall (a b : string),
 Proof.
   Admitted.
 
-(* TODO: Prove lemma - If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance. *)
+(* TODO: Prove lemma - If the strings are the same size, the Hamming distance is
+   an upper bound on the Levenshtein distance. *)
 Lemma levenshtein_distance_same_length_leq_hamming : forall (a b : string),
-  length a = length b -> levenshtein_distance a b <= hamming_distance a b. (* TODO: Write lemma. *)
+  length a = length b -> levenshtein_distance a b <= hamming_distance a b.
 Proof.
   Admitted.
 
 (* TODO: Prove lemma - It is at most the length of the longer string. *)
 Lemma levenshtein_distance_leq_longer_string_length : forall (a b : string),
-   levenshtein_distance a b <= max (length a) (length b).
+  levenshtein_distance a b <= max (length a) (length b).
 Proof.
   Admitted.
 
-(* TODO: Prove lemma - The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances from a third string (triangle inequality). *)
-Lemma levenshtein_distance_triangle_equality : forall (a b c : string),
-  levenshtein_distance a b <= (levenshtein_distance a c) + (levenshtein_distance b c).
+(* TODO: Prove lemma - The Levenshtein distance between two strings is no 
+   greater than the sum of their Levenshtein distances from a third string 
+   (triangle inequality). *)
+Lemma levenshtein_distance_triangle_inequality : forall (a b c : string),
+  levenshtein_distance a b <= (levenshtein_distance a c) 
+    + (levenshtein_distance b c).
 Proof.
   Admitted.
