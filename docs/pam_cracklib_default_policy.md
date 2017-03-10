@@ -1,6 +1,10 @@
 # Default Policy 
 Passwords must:
 
+* Not be identical to the previous password, if any.
+* Not be palindromic.
+* Not be a rotated version of the old password.
+* Not contain case changes only in relation to the previous password, if any.
 * Have a Levenshtein distance of 5 or greater from the previous password, if 
   any. [1]
 * Be at least 9 characters long [2], however:
