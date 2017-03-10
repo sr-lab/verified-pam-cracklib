@@ -78,7 +78,7 @@ Fixpoint string_length_diff (a b : string) : nat :=
 
 (* TODO: Prove lemma - It is always at least the difference of the sizes of the two strings. *)
 Lemma levenshtein_distance_atleast_length_diff : forall (a b : string),    
-    levenshtein_distance a b >= string_length_diff a b.
+  levenshtein_distance a b >= string_length_diff a b.
 Proof.
   Admitted.
 
@@ -102,6 +102,6 @@ Proof.
 
 (* TODO: Proove lemma - The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances from a third string (triangle inequality). *)
 Lemma levenshtein_distance_triangle_equality : forall (a b c : string),
-    levenshtein_distance a b <= (levenshtein_distance a c) + (levenshtein_distance b c).
+  levenshtein_distance a b <= (levenshtein_distance a c) + (levenshtein_distance b c).
 Proof.
   Admitted.
