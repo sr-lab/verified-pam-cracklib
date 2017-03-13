@@ -78,3 +78,7 @@ Definition string_count_character_classes (s : string) : nat :=
     + (nat_of_bool (string_contains_upper s)) 
     + (nat_of_bool (string_contains_digit s))
     + (nat_of_bool (string_contains_other s)).
+
+(* Returns true if a string is a rotated version of another, otherwise false. *)
+Definition string_is_rotated (a b : string) : bool :=
+  contains (append a a) b.
