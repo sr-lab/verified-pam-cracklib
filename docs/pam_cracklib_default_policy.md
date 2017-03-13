@@ -3,7 +3,7 @@ Passwords must:
 
 * Not be identical to the previous password, if any.
 * Not be palindromic.
-* Not be a rotated version of the old password.
+* Not be a rotated version of the old password, if any.
 * Not contain case changes only in relation to the previous password, if any.
 * Have a Levenshtein distance of 5 or greater from the previous password, if 
   any. [1]
