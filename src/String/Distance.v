@@ -14,7 +14,7 @@ Fixpoint hamming_distance (a b : string) : option nat :=
     | String ca a', String cb b' =>
       match hamming_distance a' b' with
         | None => None
-        | Some n => Some ((nat_of_bool (negb (beq_ascii ca cb))) + n)
+        | Some n => Some ((nat_of_bool (negb (ca ==_a cb))) + n)
       end
     | _, _ => None
   end.
@@ -22,9 +22,10 @@ Fixpoint hamming_distance (a b : string) : option nat :=
 (* TODO: Prove lemma - Hamming distance is undefined for strings with differing 
    lengths. *)
 Lemma hamming_distance_undefined_for_different_lengths : forall (a b : string),
-  length a <> length b -> hamming_distance a b = None.
+  length a <> length b <-> hamming_distance a b = None.
 Proof.
   Admitted.
+  
 
 (* TODO: Prove lemma - Hamming distance is defined for strings with the same 
    length. *)
@@ -34,10 +35,18 @@ Proof.
   Admitted.
 
 (* TODO: Prove lemma - Hamming distance is 0 for identical strings. *)
-Lemma hamming_distance_zero_for_identical : forall (a b : string),
-  a = b -> hamming_distance a b = Some 0.
+Lemma hamming_distance_zero_for_identical : forall (s: string),
+  hamming_distance s s = Some 0.
 Proof.
-  Admitted.
+  induction s.
+    - auto.
+    - unfold hamming_distance.
+      rewrite beq_ascii_reflexive.
+      simpl.
+      fold hamming_distance.
+      rewrite IHs.
+      reflexivity.
+Qed.
 
 (* TODO: Prove lemma - Hamming distance is at most string length. *)
 Lemma hamming_distance_at_most_string_length : forall (a b : string),
