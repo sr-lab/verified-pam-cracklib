@@ -2,12 +2,6 @@ Require Import Coq.Lists.List.
 Import ListNotations.
 
 (* Import functions from framework. *)
-(*
-Require Import Hapsl.Bool.Bool.
-Require Import Hapsl.String.Distance.
-Require Import Hapsl.String.Sequence.
-Require Import Hapsl.String.Palindrome.
-*)
 Require Import Hapsl.String.Search. (* Needed for string_contains_digit *)
 
 Require Import Hapsl.String.Equality.
