@@ -14,25 +14,7 @@ Require Import ExtrHaskellNatInt.
 Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
-(* Define functions used in pam_cracklib. *)
-
-Definition palindrome_c (s : string) : nat :=
-  nat_of_bool (palindrome s).
-
-Definition wordcheck_c (h n : string) : nat :=
-  nat_of_bool (contains h n).
-
-Definition minclass_c (s : string) (m : nat) : nat :=
-  nat_of_bool (negb (ltb (string_count_character_classes s) m)).
-
-Definition sequence_c (s : string) (m : nat) : nat :=
-  nat_of_bool (leb m (max (sequence_up s) (sequence_down s))).
-
-Definition consecutive_c (s : string) (m : nat) : nat :=
-  nat_of_bool (leb m (sequence_eq s)).
-
-Definition similar_c (a b : string) (d : nat) : nat :=
-  nat_of_bool (negb (ltb (levenshtein_distance a b) d)).
+Require Import Checkers.
 
 Extraction Language Haskell.
-Extraction "PamGenerated.hs" palindrome_c wordcheck_c minclass_c sequence_c consecutive_c similar_c.
+Extraction "PamGenerated.hs" pwd_quality_policy.

@@ -331,6 +331,7 @@ static char * str_lower(char *string)
 	return string;
 }
 
+/*
 static int gecoscheck(pam_handle_t *pamh, struct cracklib_options *opt, const char *new,
 		     const char *user)
 {
@@ -360,7 +361,7 @@ static int gecoscheck(pam_handle_t *pamh, struct cracklib_options *opt, const ch
 
          if (strlen(p) >= CO_MIN_WORD_LENGTH) {
              str_lower(p);
-             if (wordcheck_hs(new, p)) {
+             if (wordcheck(new, p)) {
                  free(list);
                  return 1;
              }
@@ -373,26 +374,31 @@ static int gecoscheck(pam_handle_t *pamh, struct cracklib_options *opt, const ch
     free(list);
     return 0;
 }
+*/
 
 static const char *password_check(pam_handle_t *pamh, struct cracklib_options *opt,
 				  const char *old, const char *new,
 				  const char *user)
 {
+/*
 	// Initialize Haskell runtime.
 	hs_init(NULL, NULL);
 #ifdef __GLASGOW_HASKELL__
     hs_add_root(__stginit_PamInterface);
 #endif
-
+*/
 	const char *msg = NULL;
 	char *oldmono = NULL, *newmono, *wrapped = NULL;
 	char *usermono = NULL;
 
+// JFF
+/*
 	if (old && strcmp(new, old) == 0) {
 	    msg = _("is the same as the old one");
 		hs_exit(); // Finished with Haskell runtime early.
 	    return msg;
 	}
+*/
 
 	newmono = str_lower(strdup(new));
 	if (!newmono)
@@ -414,6 +420,22 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 		}
 	}
 
+	/* JFF TEST */
+//	printf("OLD: %s\n",old);
+//	printf("OLDMONO: %s\n",oldmono);
+//	printf("Step 1.1.: %s\n",hello());
+//	printf("Step 2 (pointer): %p\n",main_check_hs(oldmono,newmono));
+//	printf("Step 2 (string): %s\n",main_check_hs(oldmono,newmono));
+	char *s = main_check_hs(oldmono,newmono);
+	if (s && strlen(s) > 0) {
+		//printf("RESULTADO: %s*\n",s);
+		msg = _(s);
+	}
+	//msg = _(main_check_hs(oldmono,newmono));
+	//if(main_check_hs(oldmono,newmono))
+	//	msg = _("JFF TEST");
+
+/*
 	if (!msg && palindrome_hs(newmono))
 		msg = _("is a palindrome");
 
@@ -440,6 +462,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 
 	if (!msg && ((opt->reject_user && wordcheck_hs(newmono, usermono)) || gecoscheck(pamh, opt, newmono, user)))
 	        msg = _("contains the user name in some form");
+*/
 
 	free(usermono);
 	if (newmono) {
@@ -455,7 +478,7 @@ static const char *password_check(pam_handle_t *pamh, struct cracklib_options *o
 	  free(wrapped);
 	}
 
-	hs_exit(); // Finished with Haskell runtime.
+//	hs_exit(); // Finished with Haskell runtime.
 	return msg;
 }
 
@@ -470,7 +493,9 @@ static int _pam_unix_approve_pass(pam_handle_t *pamh,
     const char *user;
     int retval;
 
-    if (pass_new == NULL || (pass_old && !strcmp(pass_old,pass_new))) {
+    // JFF
+    //if (pass_new == NULL || (pass_old && !strcmp(pass_old,pass_new))) {
+    if (pass_new == NULL) {
         if (ctrl & PAM_DEBUG_ARG)
             pam_syslog(pamh, LOG_DEBUG, "bad authentication token");
         pam_error(pamh, "%s", pass_new == NULL ?
@@ -488,6 +513,10 @@ static int _pam_unix_approve_pass(pam_handle_t *pamh,
      * if one wanted to hardwire authentication token strength
      * checking this would be the place
      */
+    // JFF
+    //printf("pass_old: %s\n", pass_old);
+    //printf("pass_new: %s\n", pass_new);
+    //printf("user: %s\n", user);
     msg = password_check(pamh, opt, pass_old, pass_new, user);
 
     if (msg) {
@@ -507,6 +536,13 @@ static int _pam_unix_approve_pass(pam_handle_t *pamh,
 int
 pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 {
+	// Initialize Haskell runtime.
+	hs_init(NULL, NULL);
+#ifdef __GLASGOW_HASKELL__
+    hs_add_root(__stginit_PamInterface);
+#endif
+
+
     unsigned int ctrl;
     struct cracklib_options options;
 
@@ -539,10 +575,12 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 
 	retval = pam_get_item (pamh, PAM_OLDAUTHTOK, &oldtoken);
         if (retval != PAM_SUCCESS) {
-            if (ctrl & PAM_DEBUG_ARG)
+            if (ctrl & PAM_DEBUG_ARG) 
                 pam_syslog(pamh,LOG_ERR,"Can not get old passwd");
             oldtoken = NULL;
         }
+	//printf("oldtoken: %s\n",oldtoken);
+        printf("****TEST\n");
 
 	tries = 0;
 	while (tries < options.retry_times) {
@@ -572,6 +610,8 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 	  D(("testing password"));
 	  /* now test this passwd against cracklib */
 
+          // JFF
+	  /*
 	  D(("against cracklib"));
 	  if ((crack_msg = FascistCheck (newtoken, options.cracklib_dictpath))) {
 	    if (ctrl & PAM_DEBUG_ARG)
@@ -584,9 +624,13 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
 		continue;
 	      }
 	  }
+	 */
 
 	  /* check it for strength too... */
 	  D(("for strength"));
+	 // JFF
+	  //printf("oldtoken: %s\n",oldtoken);
+	  //printf("newtoken: %s\n",newtoken);
 	  retval = _pam_unix_approve_pass (pamh, ctrl, &options,
 					   oldtoken, newtoken);
 	  if (retval != PAM_SUCCESS) {
@@ -627,6 +671,9 @@ pam_sm_chauthtok(pam_handle_t *pamh, int flags, int argc, const char **argv)
             pam_syslog(pamh, LOG_NOTICE, "UNKNOWN flags setting %02X",flags);
         return PAM_SERVICE_ERR;
     }
+
+
+    hs_exit(); // Finished with Haskell runtime early.
 
     /* Not reached */
     return PAM_SERVICE_ERR;
