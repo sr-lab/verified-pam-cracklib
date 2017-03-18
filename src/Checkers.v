@@ -2,72 +2,39 @@ Require Import Coq.Lists.List.
 Import ListNotations.
 
 (* Import functions from framework. *)
+(*
 Require Import Hapsl.Bool.Bool.
 Require Import Hapsl.String.Distance.
-Require Import Hapsl.String.Search.
 Require Import Hapsl.String.Sequence.
 Require Import Hapsl.String.Palindrome.
+*)
+Require Import Hapsl.String.Search. (* Needed for string_contains_digit *)
 
 Require Import Hapsl.String.Equality.
 Import StringEqualityNotations.
-
-
 Require Import Coq.Strings.String.
-Open Local Scope string_scope.
+Local Open Scope string_scope.
 
-(* Types *)
-Definition ErrorMsg := string.
-Definition CheckerResult := option ErrorMsg.
-Definition Password := string.
-Definition PasswordTransition := option Password -> Password.
+Require Import Hapsl.Checkers.Types.
+Require Import Hapsl.Checkers.Basic.
+Import CheckerNotations.
 
-(* Notations *)
-Notation DISABLE_CHECK := None.
-Notation GOODPWD := None.
-Notation "BADPWD: msg" := (Some msg) (at level 80).
 
-(* Util functions to deal with old passwords (that might not exist) *)
-Definition is_undefined (oldPwd: option Password) : bool :=
-  match oldPwd with
-    | None     => true
-    | Some str => false
-  end.
 
-Definition get_pwd (oldPwd: option Password) : Password :=
-  match oldPwd with
-    | None     => "THIS SHOULD NEVER HAPPEN"
-    | Some str => str
-  end.
+(* Examples: user-defined checkers *)
 
-Notation "'NEEDS' oldPwd statement" := (if (is_undefined oldPwd) then DISABLE_CHECK else statement) (at level 80).
-
-(* Examples of checkers *)
-Definition diffFromOldPwd (oldPwd: option Password) (newPwd : Password): CheckerResult :=
- NEEDS oldPwd 
-  if ((get_pwd oldPwd) ==_s newPwd) 
-  then BADPWD: "The new password is the same as the old password"
-  else GOODPWD.
- 
-Definition prefixOfOldPwd (oldPwd: option Password) (newPwd : Password): CheckerResult :=
- NEEDS oldPwd 
-  if (orb (prefix (get_pwd oldPwd) newPwd) (prefix newPwd (get_pwd oldPwd)))
-  then BADPWD: "The new password is a prefix of the old password"
-  else GOODPWD.
-
+(* The new password must not contain digits *)
 Definition newPwdContainsDigits (oldPwd: option Password) (newPwd: Password) : CheckerResult :=
  if (string_contains_digit newPwd)
  then BADPWD: "The new password contains digits"
  else GOODPWD.
 
+(* The most useless checker: all passwords are good passwords :-) *)
 Definition allGood (oldPwd: option Password) (newPwd : Password): CheckerResult := GOODPWD.
 
-Definition notPalindrome (oldPwd: option Password) (newPwd: Password) : CheckerResult :=
- if (palindrome newPwd) 
- then BADPWD: "The new password is a palindrome." 
- else GOODPWD.
 
 
-(* Define checkers that will be exported *)
+(* Define password quality policy *)
 Definition pwd_quality_policy := 
  [ 
    diffFromOldPwd
@@ -80,5 +47,3 @@ Definition pwd_quality_policy :=
  ; newPwdContainsDigits
  ; allGood
  ].
-
-Check pwd_quality_policy.
