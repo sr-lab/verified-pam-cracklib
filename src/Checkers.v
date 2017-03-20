@@ -33,8 +33,8 @@ Definition pwd_quality_policy :=
     ; notPalindrome
     ; notRotated
     ; notCaseChangesOnly
-    ; levenshteinDistanceGtFive
-    ; creditsLengthCheck
+    ; levenshteinDistanceGt 5
+    ; creditsLengthCheck 8
     ; prefixOfOldPwd
     ; newPwdContainsDigits
     ; allGood

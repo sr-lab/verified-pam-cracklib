@@ -77,16 +77,16 @@ Definition notCaseChangesOnly (oldPwd: option Password) (newPwd : Password): Che
           GOODPWD.
 
 (* Checks that the new password and old password have a Levenshtein distance greater than five. *)
-Definition levenshteinDistanceGtFive (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+Definition levenshteinDistanceGt (dist: nat) (oldPwd: option Password) (newPwd : Password): CheckerResult :=
   NEEDS oldPwd
-        if (leb (levenshtein_distance (get_pwd oldPwd) newPwd) 5) then
+        if (leb (levenshtein_distance (get_pwd oldPwd) newPwd) dist) then
           BADPWD: "The new password is too similar to the old password"
         else
           GOODPWD.
 
 (* Checks that the new password is long enough, taking into account number of character classes. *)
-Definition creditsLengthCheck (oldPwd: option Password) (newPwd : Password): CheckerResult :=
-  if leb (length newPwd) (8 - (string_count_character_classes newPwd)) then
+Definition creditsLengthCheck (len: nat) (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+  if leb (length newPwd) (len - (string_count_character_classes newPwd)) then
     BADPWD: "The new password is too short"
   else
     GOODPWD.
