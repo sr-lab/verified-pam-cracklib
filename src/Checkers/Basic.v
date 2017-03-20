@@ -1,7 +1,9 @@
 (* Import functions from framework. *)
 Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.String.Transform.
 Require Import Hapsl.String.Palindrome.
 Require Import Hapsl.String.Equality.
+Require Import Hapsl.String.Search.
 Import StringEqualityNotations.
 
 (* Import types from framework. *)
@@ -55,3 +57,19 @@ Definition notPalindrome (oldPwd: option Password) (newPwd: Password) : CheckerR
  if (palindrome newPwd) 
  then BADPWD: "The new password is a palindrome." 
  else GOODPWD.
+
+(* Checks that a new password is not just a rotated version of the old password. *)
+Definition notRotated (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+  NEEDS oldPwd
+        if string_is_rotated (get_pwd oldPwd) newPwd then
+          BADPWD: "The new password is a rotated version of the old password"
+        else
+          GOODPWD.
+
+(* Checks that a new password does not just contain case changes in relation to the old password. *)
+Definition notCaseChangesOnly (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+  NEEDS oldPwd
+        if beq_string (string_to_lower (get_pwd oldPwd)) (string_to_lower newPwd) then
+          BADPWD: "The new password contains case changes only compared to the old password"
+        else
+          GOODPWD.
