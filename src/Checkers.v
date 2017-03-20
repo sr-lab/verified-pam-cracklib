@@ -27,15 +27,15 @@ Definition newPwdContainsDigits (oldPwd: option Password) (newPwd: Password) : C
 Definition allGood (oldPwd: option Password) (newPwd : Password): CheckerResult := GOODPWD.
 
 (* Define password quality policy *)
-Definition pwd_quality_policy := 
- [ 
-   diffFromOldPwd
-   ; notPalindrome
-   ; notRotated
-   ; notCaseChangesOnly
-   ; levenshteinDistanceGtFive
-(* ; TODO: Be at least 9 characters long [2], however: see Saul's docs *)
- ; prefixOfOldPwd
- ; newPwdContainsDigits
- ; allGood
- ].
+Definition pwd_quality_policy :=
+  [
+    diffFromOldPwd
+    ; notPalindrome
+    ; notRotated
+    ; notCaseChangesOnly
+    ; levenshteinDistanceGtFive
+    ; creditsLengthCheck
+    ; prefixOfOldPwd
+    ; newPwdContainsDigits
+    ; allGood
+  ].

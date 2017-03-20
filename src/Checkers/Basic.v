@@ -83,3 +83,11 @@ Definition levenshteinDistanceGtFive (oldPwd: option Password) (newPwd : Passwor
           BADPWD: "The new password is too similar to the old password"
         else
           GOODPWD.
+
+(* Checks that the new password is long enough, taking into account number of character classes. *)
+Definition creditsLengthCheck (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+  if leb (length newPwd) (8 - (string_count_character_classes newPwd)) then
+    BADPWD: "The new password is too short"
+  else
+    GOODPWD.
+    
