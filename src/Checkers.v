@@ -33,7 +33,7 @@ Definition pwd_quality_policy :=
    ; notPalindrome
    ; notRotated
    ; notCaseChangesOnly
-(* ; TODO: Have a Levenshtein distance of 5 or greater from the previous password, if any. [1] *)
+   ; levenshteinDistanceGtFive
 (* ; TODO: Be at least 9 characters long [2], however: see Saul's docs *)
  ; prefixOfOldPwd
  ; newPwdContainsDigits

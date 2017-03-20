@@ -1,5 +1,6 @@
 (* Import functions from framework. *)
 Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.String.Distance.
 Require Import Hapsl.String.Transform.
 Require Import Hapsl.String.Palindrome.
 Require Import Hapsl.String.Equality.
@@ -9,9 +10,10 @@ Import StringEqualityNotations.
 (* Import types from framework. *)
 Require Import Hapsl.Checkers.Types.
 
+Require Import Coq.Arith.Arith.
 Require Import Coq.Strings.String.
-Local Open Scope string_scope.
 
+Local Open Scope string_scope.
 
 (* Util functions to deal with old passwords (that might not exist) *)
 Definition is_undefined (oldPwd: option Password) : bool :=
@@ -71,5 +73,13 @@ Definition notCaseChangesOnly (oldPwd: option Password) (newPwd : Password): Che
   NEEDS oldPwd
         if (string_to_lower (get_pwd oldPwd)) ==_s (string_to_lower newPwd) then
           BADPWD: "The new password contains case changes only compared to the old password"
+        else
+          GOODPWD.
+
+(* Checks that the new password and old password have a Levenshtein distance greater than five. *)
+Definition levenshteinDistanceGtFive (oldPwd: option Password) (newPwd : Password): CheckerResult :=
+  NEEDS oldPwd
+        if (leb (levenshtein_distance (get_pwd oldPwd) newPwd) 5) then
+          BADPWD: "The new password is too similar to the old password"
         else
           GOODPWD.
