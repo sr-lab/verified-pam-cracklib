@@ -36,6 +36,5 @@ Definition pwd_quality_policy :=
     ; levenshteinDistanceGt 5
     ; creditsLengthCheck 8
     ; prefixOfOldPwd
-    ; newPwdContainsDigits
     ; allGood
   ].
