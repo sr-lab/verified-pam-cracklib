@@ -17,14 +17,14 @@ Import StringEqualityNotations.
 Require Import Hapsl.Checkers.Types.
 
 (* Utility functions to deal with old passwords (that might not exist). *)
-Definition is_undefined (oldPwd: option Password) : bool :=
-  match oldPwd with
+Definition is_undefined (old_pwd: option Password) : bool :=
+  match old_pwd with
   | None => true
   | Some str => false
   end.
 
-Definition get_pwd (oldPwd: option Password) : Password :=
-  match oldPwd with
+Definition get_pwd (old_pwd: option Password) : Password :=
+  match old_pwd with
   | None => "THIS SHOULD NEVER HAPPEN"
   | Some str => str
   end.
