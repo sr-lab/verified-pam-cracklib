@@ -69,7 +69,7 @@ Definition notRotated (oldPwd: option Password) (newPwd : Password): CheckerResu
 (* Checks that a new password does not just contain case changes in relation to the old password. *)
 Definition notCaseChangesOnly (oldPwd: option Password) (newPwd : Password): CheckerResult :=
   NEEDS oldPwd
-        if beq_string (string_to_lower (get_pwd oldPwd)) (string_to_lower newPwd) then
+        if (string_to_lower (get_pwd oldPwd)) ==_s (string_to_lower newPwd) then
           BADPWD: "The new password contains case changes only compared to the old password"
         else
           GOODPWD.
