@@ -17,7 +17,7 @@ Import StringEqualityNotations.
 (* Examples: User-defined checkers. *)
 
 (* The most useless checker: all passwords are good passwords :-) *)
-Definition all_good (old_pwd: option Password) (new_pwd : Password): CheckerResult := GOODPWD.
+Definition all_good (old_pwd : option Password) (new_pwd : Password) : CheckerResult := GOODPWD.
 
 (* Define password quality policy. *)
 Definition pwd_quality_policy :=

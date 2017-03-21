@@ -17,20 +17,20 @@ Import StringEqualityNotations.
 Require Import Hapsl.Checkers.Types.
 
 (* Utility functions to deal with old passwords (that might not exist). *)
-Definition is_undefined (old_pwd: option Password) : bool :=
+Definition is_undefined (old_pwd : option Password) : bool :=
   match old_pwd with
   | None => true
   | Some str => false
   end.
 
-Definition get_pwd (old_pwd: option Password) : Password :=
+Definition get_pwd (old_pwd : option Password) : Password :=
   match old_pwd with
   | None => "THIS SHOULD NEVER HAPPEN"
   | Some str => str
   end.
 
+(* Notations for checkers. *)
 Module CheckerNotations.
-  (* Notations *)
   Notation DISABLE_CHECK := None.
   Notation GOODPWD := None.
   Notation "BADPWD: msg" := (Some msg) (at level 80).
@@ -42,7 +42,7 @@ Import CheckerNotations.
 (* Some Basic Checkers *)
 
 (* The new password must be different from old password *)
-Definition diff_from_old_pwd (old_pwd: option Password) (new_pwd : Password): CheckerResult :=
+Definition diff_from_old_pwd (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if (get_pwd old_pwd) ==_s new_pwd then
           BADPWD: "The new password is the same as the old password"
@@ -50,7 +50,7 @@ Definition diff_from_old_pwd (old_pwd: option Password) (new_pwd : Password): Ch
           GOODPWD.
  
 (* The new password must not be a prefix of the old password (and vice-versa) *)
-Definition prefix_of_old_pwd (old_pwd: option Password) (new_pwd : Password): CheckerResult :=
+Definition prefix_of_old_pwd (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if orb (prefix (get_pwd old_pwd) new_pwd) (prefix new_pwd (get_pwd old_pwd)) then
           BADPWD: "The new password is a prefix of the old password"
@@ -58,21 +58,22 @@ Definition prefix_of_old_pwd (old_pwd: option Password) (new_pwd : Password): Ch
           GOODPWD.
 
 (* The new password must not be a palindrome *)
-Definition not_palindrome (old_pwd: option Password) (new_pwd: Password) : CheckerResult :=
+Definition not_palindrome (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   if palindrome new_pwd then
     BADPWD: "The new password is a palindrome."
   else
     GOODPWD.
 
-(* The new password should not be a rotated version of the old password. *)
-Definition not_rotated (old_pwd: option Password) (new_pwd : Password): CheckerResult :=
+(* The new password must not be a rotated version of the old password. *)
+Definition not_rotated (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if string_is_rotated (get_pwd old_pwd) new_pwd then
           BADPWD: "The new password is a rotated version of the old password."
         else
           GOODPWD.
 
-(* The new password should not just contain case changes in relation to the old password. *)
+(* The new password must not just contain case changes in relation to the old 
+ * password. *)
 Definition not_case_changes_only (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if (string_to_lower (get_pwd old_pwd)) ==_s (string_to_lower new_pwd) then
@@ -80,7 +81,8 @@ Definition not_case_changes_only (old_pwd : option Password) (new_pwd : Password
         else
           GOODPWD.
 
-(* The new password should have a Levenshtein distance greater than five in relation to the old password. *)
+(* The new password must have a Levenshtein distance greater than five in 
+ * relation to the old password. *)
 Definition levenshtein_distance_gt (dist : nat) (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if leb (levenshtein_distance (get_pwd old_pwd) new_pwd) dist then
@@ -88,8 +90,9 @@ Definition levenshtein_distance_gt (dist : nat) (old_pwd : option Password) (new
         else
           GOODPWD.
 
-(* The new password shoud be long enough, taking into account number of character classes. *)
-Definition credits_length_check (len: nat) (old_pwd: option Password) (new_pwd : Password): CheckerResult :=
+(* The new password must be long enough, taking into account number of character 
+ * classes. *)
+Definition credits_length_check (len : nat) (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   if leb (length new_pwd) (len - (string_count_character_classes new_pwd)) then
     BADPWD: "The new password is too short."
   else
