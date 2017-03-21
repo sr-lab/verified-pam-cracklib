@@ -1,40 +1,33 @@
 Require Import Coq.Lists.List.
+Require Import Coq.Strings.String.
+
 Import ListNotations.
 
-(* Import functions from framework. *)
-Require Import Hapsl.String.Search. (* Needed for string_contains_digit *)
-
-Require Import Hapsl.String.Equality.
-Import StringEqualityNotations.
-Require Import Coq.Strings.String.
 Local Open Scope string_scope.
 
+(* Import functions from framework. *)
 Require Import Hapsl.Checkers.Types.
 Require Import Hapsl.Checkers.Basic.
+Require Import Hapsl.String.Search.
+Require Import Hapsl.String.Equality.
+
 Import CheckerNotations.
+Import StringEqualityNotations.
 
-
-
-(* Examples: user-defined checkers *)
-
-(* The new password must not contain digits *)
-Definition newPwdContainsDigits (oldPwd: option Password) (newPwd: Password) : CheckerResult :=
- if (string_contains_digit newPwd)
- then BADPWD: "The new password contains digits"
- else GOODPWD.
+(* Examples: User-defined checkers. *)
 
 (* The most useless checker: all passwords are good passwords :-) *)
-Definition allGood (oldPwd: option Password) (newPwd : Password): CheckerResult := GOODPWD.
+Definition all_good (old_pwd : option Password) (new_pwd : Password) : CheckerResult := GOODPWD.
 
-(* Define password quality policy *)
+(* Define password quality policy. *)
 Definition pwd_quality_policy :=
   [
-    diffFromOldPwd
-    ; notPalindrome
-    ; notRotated
-    ; notCaseChangesOnly
-    ; levenshteinDistanceGt 5
-    ; creditsLengthCheck 8
-    ; prefixOfOldPwd
-    ; allGood
+    diff_from_old_pwd
+    ; not_palindrome
+    ; not_rotated
+    ; not_case_changes_only
+    ; levenshtein_distance_gt 5
+    ; credits_length_check 8
+    ; prefix_of_old_pwd
+    ; all_good
   ].

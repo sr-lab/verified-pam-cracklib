@@ -6,7 +6,8 @@ Require Import Coq.Strings.Ascii.
 Definition compare_ascii (a b : ascii) : comparison  :=
   N.compare (N_of_ascii a) (N_of_ascii b).
 
-(* Prove that the compare_ascii function implies the equality of two ASCII characters. *)
+(* Prove that the compare_ascii function implies the equality of two ASCII 
+ * characters. *)
 Theorem compare_ascii_implies_equality : forall (a b : ascii),
   (compare_ascii a b) = Eq -> a = b.
 Proof.
