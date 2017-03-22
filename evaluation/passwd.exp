@@ -1,0 +1,18 @@
+#!/bin/expect -f
+
+# Check argument list.
+if {[llength $argv] != 2} {
+	# Error, bad argument list.
+	puts "usage: /passwd.exp username password"
+	exit 1
+}
+
+set username [lindex $argv 0]
+set newpass [lindex $argv 1]
+
+spawn passwd $username
+
+expect "?assword:"
+send \"$newpass\r\"
+expect "?assword:"
+close
