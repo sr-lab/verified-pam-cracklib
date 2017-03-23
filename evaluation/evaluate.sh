@@ -12,6 +12,7 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 	RESULT="${RESULT//New password: /}"
 	RESULT="${RESULT//Retype new password: /}"
 	RESULT="${RESULT/spawn passwd $USER/}"
+	RESULT="${RESULT/./ .}" # Space out sentences.
 	RESULT=$(echo "${RESULT//[$'\r\n']}")
 
 	# Time in nanoseconds.
