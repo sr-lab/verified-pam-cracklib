@@ -10,7 +10,7 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 	# Time in nanoseconds.
 	TIME=$(date +%s%N)
 
-	# Result of attempted password change.
+	# Extract result of attempted password change.
 	RESULT=$(expect -f passwd.exp "$USER" "$line")
 	RESULT="${RESULT//New password: /}"
 	RESULT="${RESULT//Retype new password: /}"
