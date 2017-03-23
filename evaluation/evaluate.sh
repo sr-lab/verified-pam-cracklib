@@ -2,13 +2,10 @@
 
 COMMA="" # Initially, no separator.
 
-echo "[" # Start JSON array.
+printf "{\"started\":\"%s\", \"runs\": [" $(date +%s%N) # Start JSON structure.
 
 # For each line in password file.
 while IFS='' read -r line || [[ -n "$line" ]]; do
-
-	# Time in nanoseconds.
-	TIME=$(date +%s%N)
 
 	# Extract result of attempted password change.
 	RESULT=$(expect -f passwd.exp "$USER" "$line")
@@ -16,6 +13,9 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 	RESULT="${RESULT//Retype new password: /}"
 	RESULT="${RESULT/spawn passwd $USER/}"
 	RESULT=$(echo "${RESULT//[$'\r\n']}")
+
+	# Time in nanoseconds.
+	TIME=$(date +%s%N)
 
 	# Check if password is valid.
 	VALID="true"
@@ -31,4 +31,4 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 
 done < "$1"
 
-echo "]" # End JSON array.
+echo "]}" # End JSON structure.
