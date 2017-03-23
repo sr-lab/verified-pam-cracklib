@@ -5,11 +5,13 @@ Local Open Scope string_scope.
 
 (* Import functions from framework. *)
 Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.Ascii.Class.
 Require Import Hapsl.String.Distance.
 Require Import Hapsl.String.Transform.
 Require Import Hapsl.String.Palindrome.
 Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Search.
+Require Import Hapsl.String.Sequence.
 
 Import StringEqualityNotations.
 
@@ -97,4 +99,12 @@ Definition credits_length_check (len : nat) (old_pwd : option Password) (new_pwd
     BADPWD: "The new password is too short."
   else
     GOODPWD.
+
+(* The new password must not contain more than a certain number of characters of
+ * the same class in a row. *)
+Definition max_class_repeat (m : nat) (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
+  if leb m (sequence_of new_pwd is_same_class 0) then
+    GOODPWD
+  else
+    BADPWD: "The new password contains too many of the same character class in a row".
     
