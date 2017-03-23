@@ -13,6 +13,6 @@ set newpass [lindex $argv 1]
 spawn passwd $username
 
 expect "?assword:"
-send \"$newpass\r\"
+send $newpass\r
 expect "?assword:"
 close
