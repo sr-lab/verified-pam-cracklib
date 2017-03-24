@@ -29,12 +29,25 @@ Definition get_pwd (old_pwd : option Password) : Password :=
   | Some str => str
   end.
 
+Definition old_pwd (pt : PasswordTransition) : option Password :=
+  match pt with
+   | PwdTransition old new => old
+  end.
+
+Definition new_pwd (pt : PasswordTransition) : Password :=
+  match pt with
+   | PwdTransition old new => new
+  end.
+
+
+
 (* Notations for checkers. *)
 Module CheckerNotations.
   Notation DISABLE_CHECK := None.
   Notation GOODPWD := None.
   Notation "BADPWD: msg" := (Some msg) (at level 80).
   Notation "'NEEDS' oldPwd statement" := (if (is_undefined oldPwd) then DISABLE_CHECK else statement) (at level 80).
+  Notation "'NEEDS_OLD_PWD' '(' pt ')' statement" := (if (is_undefined(old_pwd(pt))) then DISABLE_CHECK else statement) (at level 80).
 End CheckerNotations.
 
 Import CheckerNotations.
@@ -45,6 +58,14 @@ Import CheckerNotations.
 Definition diff_from_old_pwd (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
         if (get_pwd old_pwd) ==_s new_pwd then
+          BADPWD: "The new password is the same as the old password"
+        else
+          GOODPWD.
+
+(* We can implement checkers by specifying password transitions as arguments. *)
+Definition diff_from_old_pwd_pt (pt : PasswordTransition) : CheckerResult :=
+  NEEDS_OLD_PWD( pt )
+        if (get_pwd(old_pwd(pt))) ==_s new_pwd(pt) then
           BADPWD: "The new password is the same as the old password"
         else
           GOODPWD.
@@ -63,6 +84,14 @@ Definition not_palindrome (old_pwd : option Password) (new_pwd : Password) : Che
     BADPWD: "The new password is a palindrome."
   else
     GOODPWD.
+
+(* Same checker, but with a password transition as argument *)
+Definition not_palindrome_pt (pt : PasswordTransition) : CheckerResult :=
+  if palindrome(new_pwd(pt)) then
+    BADPWD: "The new password is a palindrome."
+  else
+    GOODPWD.
+
 
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=

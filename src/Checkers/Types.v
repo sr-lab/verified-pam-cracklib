@@ -12,4 +12,7 @@ Definition Password := string.
 (* A password transition represents an (optional) old password being changed to
  * a new password by a function. *)
 (* TODO: Is this used? *)
-Definition PasswordTransition := option Password -> Password.
+(*Definition PasswordTransition := option Password -> Password.*)
+
+Inductive PasswordTransition : Set := 
+	PwdTransition :  (option Password) -> Password -> PasswordTransition.
