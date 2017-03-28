@@ -61,7 +61,7 @@ Definition prefix_of_old_pwd (old_pwd : option Password) (new_pwd : Password) : 
 
 (* The new password must not be a palindrome *)
 Definition not_palindrome (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
-  if palindrome new_pwd then
+  if palindrome (string_to_lower new_pwd) then
     BADPWD: "The new password is a palindrome."
   else
     GOODPWD.
@@ -69,7 +69,7 @@ Definition not_palindrome (old_pwd : option Password) (new_pwd : Password) : Che
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
-        if string_is_rotated (get_pwd old_pwd) new_pwd then
+        if string_is_rotated (string_to_lower (get_pwd old_pwd)) (string_to_lower new_pwd) then
           BADPWD: "The new password is a rotated version of the old password."
         else
           GOODPWD.
@@ -87,7 +87,7 @@ Definition not_case_changes_only (old_pwd : option Password) (new_pwd : Password
  * relation to the old password. *)
 Definition levenshtein_distance_gt (dist : nat) (old_pwd : option Password) (new_pwd : Password) : CheckerResult :=
   NEEDS old_pwd
-        if leb (levenshtein_distance (get_pwd old_pwd) new_pwd) dist then
+        if leb (levenshtein_distance (string_to_lower (get_pwd old_pwd)) (string_to_lower new_pwd)) dist then
           BADPWD: "The new password is too similar to the old password."
         else
           GOODPWD.
