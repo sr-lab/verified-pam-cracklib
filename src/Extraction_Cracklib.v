@@ -14,7 +14,7 @@ Require Import ExtrHaskellNatInt.
 Require Import ExtrHaskellZInteger.
 Require Import ExtrHaskellString.
 
-Require Import Checkers.
+Require Import PasswordPolicy.
 
 Extraction Language Haskell.
 Extraction "PamGenerated.hs" pwd_quality_policy.
