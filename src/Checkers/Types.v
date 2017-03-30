@@ -10,6 +10,6 @@ Definition CheckerResult := option ErrorMsg.
 Definition Password := string.
 
 (* A password transition represents an (optional) old password being changed to
- * a new password by a function. *)
-(* TODO: Is this used? *)
-Definition PasswordTransition := option Password -> Password.
+ * a new password . *)
+Inductive PasswordTransition : Set := 
+	PwdTransition :  (option Password) -> Password -> PasswordTransition.

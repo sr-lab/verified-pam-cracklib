@@ -17,4 +17,4 @@ Require Import ExtrHaskellString.
 Require Import PasswordPolicy.
 
 Extraction Language Haskell.
-Extraction "PamGenerated.hs" pwd_quality_policy.
+Extraction "PasswordPolicyGenerated.hs" pwd_quality_policy.

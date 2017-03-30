@@ -20,13 +20,13 @@ main:
 	#| -o          | set output filename                                     |
 
 	# Compile Haskell to object code (*.o) but do not link
-	ghc -F -pgmF ./fiximports.py -fPIC -dynamic -c PamGenerated.hs -O PamInterface.hs 
+	ghc -F -pgmF ./fiximports.py -fPIC -dynamic -c PasswordPolicyGenerated.hs -O PamInterface.hs 
 
 	# Compile and link C code with compiled Haskell
-	ghc -F -pgmF ./fiximports.py -fPIC -shared -dynamic -o pam_basic_pwd_policy.so PamGenerated.o PamInterface.o pam_basic_pwd_policy.c -lHSrts-ghc7.10.3 -lpam -lcrack 
+	ghc -F -pgmF ./fiximports.py -fPIC -shared -dynamic -o pam_basic_pwd_policy.so PasswordPolicyGenerated.o PamInterface.o pam_basic_pwd_policy.c -lHSrts-ghc7.10.3 -lpam -lcrack 
 
 clean:
-	rm -f *.hi *.o .*.aux *~ *.vo *.glob PamGenerated.* pam_basic_pwd_policy *.so *_stub.h
+	rm -f *.hi *.o .*.aux *~ *.vo *.glob PasswordPolicyGenerated.* pam_basic_pwd_policy *.so *_stub.h
 
 install:
 	# Delete existing installation and copy built installation over
