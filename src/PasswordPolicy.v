@@ -14,10 +14,7 @@ Require Import Hapsl.String.Equality.
 Import CheckerNotations.
 Import StringEqualityNotations.
 
-(* Examples: User-defined checkers. *)
-
-(* The most useless checker: all passwords are good passwords :-) *)
-Definition all_good (old_pwd : option Password) (new_pwd : Password) : CheckerResult := GOODPWD.
+(* Users can define their own checkers here. *)
 
 (* Define password quality policy. *)
 Definition pwd_quality_policy :=
@@ -28,8 +25,7 @@ Definition pwd_quality_policy :=
     ; not_case_changes_only
     ; levenshtein_distance_gt 5
     ; credits_length_check 8
-    (* TODO: confirm that we can remove the following two checkers:
+    (* TODO: confirm that we can remove the following checker:
       ; prefix_of_old_pwd
-      ; all_good
     *)
   ].

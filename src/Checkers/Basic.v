@@ -19,12 +19,6 @@ Import StringEqualityNotations.
 Require Import Hapsl.Checkers.Types.
 
 (* Utility functions to deal with old passwords (that might not exist). *)
-Definition is_undefined (old_pwd : option Password) : bool :=
-  match old_pwd with
-  | None => true
-  | Some str => false
-  end.
-
 Definition old_is_undefined (pt : PasswordTransition) : bool :=
   match pt with
   | PwdTransition old new =>
@@ -33,13 +27,6 @@ Definition old_is_undefined (pt : PasswordTransition) : bool :=
 	 | Some str => false
 	end
   end.
-
-Definition get_pwd (old_pwd : option Password) : Password :=
-  match old_pwd with
-  | None => "THIS SHOULD NEVER HAPPEN"
-  | Some str => str
-  end.
-
 
 (* new_pwd extracts the new password from a password transition *)
 Definition new_pwd (pt : PasswordTransition) : Password :=
@@ -54,7 +41,7 @@ Module CheckerNotations.
   Notation DISABLE_CHECK := None.
   Notation GOODPWD := None.
   Notation "BADPWD: msg" := (Some msg) (at level 80).
-  Notation "'NEEDS' old_pwd 'FROM' pt statement" := (let old_pwd := (fun (pt:PasswordTransition) => (match pt with (PwdTransition old new) => (match old with | None => "YOU SHOULD USE NEEDS_OLD_PWD" | Some str => str end) end)) in if (old_is_undefined(pt)) then DISABLE_CHECK else statement) (at level 80).
+  Notation "'NEEDS' old_pwd 'FROM' pt statement" := (let old_pwd := (fun (pt:PasswordTransition) => (match pt with (PwdTransition old new) => (match old with | None => "" | Some str => str end) end)) in if (old_is_undefined(pt)) then DISABLE_CHECK else statement) (at level 80).
 End CheckerNotations.
 
 Import CheckerNotations.
@@ -88,7 +75,7 @@ Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
-		if string_is_rotated (string_to_lower (get_pwd (old_pwd pt))) (string_to_lower (new_pwd pt)) then
+		if string_is_rotated (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt)) then
 		  BADPWD: "The new password is a rotated version of the old password."
 		else
 		  GOODPWD.
