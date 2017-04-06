@@ -11,7 +11,7 @@ function removeLineBreaks
 
 COMMA="" # Initially, no separator.
 
-printf "{\"started\":\"%s\", \"runs\": [" $(date +%s%N) # Start JSON structure.
+printf "{\"started\":\"%s\",\"runs\":[" $(date +%s%N) # Start JSON structure.
 
 # For each line in password file.
 while IFS='' read -r line || [[ -n "$line" ]]; do
@@ -37,7 +37,8 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 	fi
 
 	# Print object.
-	printf "%s{\"password\":\"%s\",\"time\":\"%s\",\"result\":\"%s\",\"valid\":%s}" "$COMMA" "$line" "$TIME" "$RESULT" "$VALID"
+	CLEANLINE="${line//\\/\\\\}"
+	printf "%s{\"password\":\"%s\",\"time\":\"%s\",\"result\":\"%s\",\"valid\":%s}" "$COMMA" "$CLEANLINE" "$TIME" "$RESULT" "$VALID"
 
 	# Now we need a separator.
 	COMMA=","
@@ -45,3 +46,4 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 done < "$1"
 
 echo "]}" # End JSON structure.
+
