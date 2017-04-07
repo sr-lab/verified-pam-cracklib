@@ -105,6 +105,13 @@ Definition credits_length_check (len : nat) (pt : PasswordTransition) : CheckerR
     BADPWD: "The new password is too short."
   else
     GOODPWD.
+
+(* The new password must be long enough. *)
+Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
+  if leb (length (new_pwd pt)) len then
+    BADPWD: "The new password is too short."
+  else
+    GOODPWD.
     
 (* The new password must not contain more than a certain number of characters of
  * the same class in a row. *)
