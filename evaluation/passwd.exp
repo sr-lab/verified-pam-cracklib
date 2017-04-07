@@ -14,8 +14,8 @@ set newpass [lindex $argv 1]
 # Spawn process.
 spawn passwd $username
 
-# Interact with process.
+# Interact with process, exit after first password entry.
 expect "?assword:"
 send -- $newpass\r
 expect "?assword:"
-close # Exit after first password entry.
+close
