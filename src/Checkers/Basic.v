@@ -113,3 +113,31 @@ Definition max_class_repeat (m : nat) (pt : PasswordTransition) : CheckerResult 
     GOODPWD
   else
     BADPWD: "The new password contains too many of the same character class in a row".
+
+
+(* Some proofs on the behaviour of checkers (not the functional logic) *)
+
+Definition old_pwd_is_undefined (pt : PasswordTransition): bool :=
+  match pt with
+  | PwdTransition old _ =>
+    match old with
+    | None => true
+    | Some _ => false
+    end
+  end.
+
+
+(* If the old password is undefined, then the checker prefix_of_old_pwd 
+   accepts any password (i.e. the prefix check is essentially disabled). *)
+Lemma prefix_old_pwd_undefined: forall (pt: PasswordTransition),
+    old_pwd_is_undefined(pt) = true -> prefix_of_old_pwd(pt) = GOODPWD.
+Proof.
+  intros.
+  unfold old_pwd_is_undefined in H. 
+  (* Case analysis *)
+  destruct pt. destruct o.
+   (* Case 1 (trivial): old password is defined *)
+   - congruence.
+   (* Case 2: old password is undefined *)
+   - unfold prefix_of_old_pwd. simpl. auto.
+Qed.
