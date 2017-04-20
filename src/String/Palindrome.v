@@ -26,7 +26,7 @@ Qed.
 
 (* The recursive portion of the efficient palindrome function. *)
 Fixpoint palindrome_efficient_r (s : string) (x y : nat) : bool :=
-  if leb y x then
+  if Nat.leb y x then
     true (* This is included only for efficiency. *)
   else
     match y with
