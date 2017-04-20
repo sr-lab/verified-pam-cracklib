@@ -1,9 +1,11 @@
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
+Require Import Hapsl.Ascii.Equality.
 Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Transform.
 
+Import AsciiEqualityNotations.
 Import StringEqualityNotations.
 
 (* Returns true if a string is a palindrome, otherwise returns false. *)
