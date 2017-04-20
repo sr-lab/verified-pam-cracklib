@@ -30,8 +30,12 @@ Fixpoint palindrome_efficient_r (s : string) (x y : nat) : bool :=
     true (* This is included only for efficiency. *)
   else
     match y with
-      | S y' => (get x s) ==_a (get y' s) 
-        && (palindrome_efficient_r s (x + 1) y')
+      | S y' => 
+        match (get x s), (get y' s) with
+          | None, None => true
+          | Some xa, Some ya => (xa ==_s ya) && (palindrome_efficient_r s (x + 1) y')
+          | _, _ => false
+        end
       | O => true
     end.
 
