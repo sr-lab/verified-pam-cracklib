@@ -38,7 +38,7 @@ Fixpoint string_reverse (s : string) : string :=
   | String c s' => (string_reverse s') +=_s (String c EmptyString)
   end.
 
-(* Prove that appending an empty stirng to a string is reflexive. *)
+(* Prove that appending an empty string to a string is reflexive. *)
 Theorem append_empty_reflexive : forall (s : string),
   s +=_s EmptyString = s.
 Proof.
