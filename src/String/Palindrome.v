@@ -20,3 +20,18 @@ Proof.
   rewrite -> beq_string_reflexive.
   reflexivity.
 Qed.
+
+(* The recursive portion of the efficient palindrome function. *)
+Fixpoint palindrome_efficient_r (s : string) (x y : nat) : bool :=
+  if ble_nat y x then
+    true (* This is included only for efficiency. *)
+  else
+    match y with
+      | S y' => (get x s) ==_a (get y' s) 
+        && (palindrome_efficient_r s (x + 1) y')
+      | O => true
+    end.
+
+(* A more efficient implementation of the palindrome function. *)
+Definition palindrome_efficient (s : string) : bool :=
+  palindrome_efficient_r s 0 (length s).
