@@ -26,6 +26,10 @@ Proof.
     auto.
 Qed.
 
+(* TODO: Symmetry of beq_string? *)
+
+(* TODO: Transitivity of beq_string? *)
+
 (* Equality notations module for ASCII strings. *)
 Module StringEqualityNotations.
 
