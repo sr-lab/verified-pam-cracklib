@@ -113,7 +113,7 @@ Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerRes
   else
     GOODPWD.
 
-(* Prove thay plain_length_check is correct for all lengths and password transitions. *)
+(* Prove that plain_length_check is correct for all lengths and password transitions. *)
 Lemma plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
   plain_length_check len pt = GOODPWD <-> is_true (negb (leb (length (new_pwd pt)) len)).
 Proof.
