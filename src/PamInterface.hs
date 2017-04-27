@@ -11,7 +11,7 @@ import Data.Maybe (catMaybes)
 -- Import functional code that was extracted from Coq
 import PasswordPolicyGenerated
 
-
+-- Main check (depends on process_checkers)
 main_check_hs :: CString -> CString -> IO CString
 main_check_hs oldPwd newPwd = 
  do
@@ -29,7 +29,7 @@ main_check_hs oldPwd newPwd =
 
 foreign export ccall main_check_hs :: CString -> CString -> IO CString
 
---process_checkers :: [Maybe Password -> Password -> Maybe ErrorMsg] -> Maybe Password -> Password -> [ErrorMsg]
+-- Run password checkers, one by one (collecting error messages)
 process_checkers :: [PasswordTransition -> Maybe ErrorMsg] -> Maybe Password -> Password -> [ErrorMsg]
 process_checkers []     _      _       = []
 process_checkers (c:cs) oldPwd newPwd  = (catMaybes [c (PwdTransition oldPwd newPwd)]) ++ process_checkers cs oldPwd newPwd

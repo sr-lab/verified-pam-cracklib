@@ -25,7 +25,4 @@ Definition pwd_quality_policy :=
     ; not_case_changes_only
     ; levenshtein_distance_gt 5
     ; credits_length_check 8
-    (* TODO: confirm that we can remove the following checker:
-      ; prefix_of_old_pwd
-    *)
   ].

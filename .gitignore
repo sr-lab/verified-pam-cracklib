@@ -7,6 +7,9 @@
 *.so
 *.hi
 *_stub.h
+*.aux
+\#*
+.\#*
 
 # Generated project files
 _CoqProject
