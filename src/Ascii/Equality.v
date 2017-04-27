@@ -49,6 +49,10 @@ Proof.
 Qed.
 
 (* TODO: Symmetry of beq_ascii? *)
+Lemma beq_ascii_symmetric : forall (a b : ascii),
+    beq_ascii a b = beq_ascii b a.
+Proof.
+  Admitted.
 
 (* TODO: Transitivity of beq_ascii? *)
 
