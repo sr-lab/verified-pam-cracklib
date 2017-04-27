@@ -1,6 +1,6 @@
-# Verified PAM Cracklib
+# Verified PAM Password Checker Toolkit
 
-A verified rewrite of the PAM cracklib module.
+A toolset for defining and building verified PAM modules for password checking.
 
 ## Getting Started
 
