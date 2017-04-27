@@ -34,7 +34,7 @@ Lemma hamming_distance_defined_for_same_length : forall (a b : string),
 Proof.
   Admitted.
 
-(* TODO: Prove lemma - Hamming distance is 0 for identical strings. *)
+(* Hamming distance is 0 for identical strings. *)
 Lemma hamming_distance_zero_for_identical : forall (s: string),
   hamming_distance s s = Some 0.
 Proof.
