@@ -112,7 +112,25 @@ Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerRes
     BADPWD: "The new password is too short."
   else
     GOODPWD.
-    
+
+(* Prove that plain_length_check is correct for all lengths and password transitions. *)
+Lemma plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
+  plain_length_check len pt = GOODPWD <-> is_true (negb (leb (length (new_pwd pt)) len)).
+Proof.
+  intros.
+  split.
+  + unfold plain_length_check.
+    destruct (leb (length (new_pwd pt)) len).
+    (* Case 1: Premise is false. *)
+    - simpl. congruence.
+    (* Case 2: Trivial. *)
+    - auto.
+  + unfold plain_length_check.
+    destruct (leb (length (new_pwd pt)) len).
+    - unfold is_true. simpl. congruence.
+    - unfold is_true. simpl. auto.
+Qed.
+
 (* The new password must not contain more than a certain number of characters of
  * the same class in a row. *)
 Definition max_class_repeat (m : nat) (pt : PasswordTransition) : CheckerResult :=
