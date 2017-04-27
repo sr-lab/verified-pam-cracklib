@@ -48,6 +48,22 @@ Proof.
       reflexivity.
 Qed.
 
+(* Prove symmetry of hamming distance. *)
+Lemma hamming_distance_symmetric : forall (a b : string),
+    hamming_distance a b = hamming_distance b a.
+Proof.
+  intros.
+  unfold hamming_distance.
+  destruct a.
+  + destruct b.
+    - reflexivity.
+    - reflexivity.
+  + destruct b.
+    - reflexivity.
+    - fold hamming_distance.
+      rewrite -> beq_ascii_symmetric.
+      (* Stuck here. *)
+     
 (* TODO: Prove lemma - Hamming distance is at most string length. *)
 Lemma hamming_distance_at_most_string_length : forall (a b : string),
   True.
