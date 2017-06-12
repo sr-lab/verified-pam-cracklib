@@ -24,5 +24,5 @@ Definition pwd_quality_policy :=
     ; not_rotated
     ; not_case_changes_only
     ; levenshtein_distance_gt 5
-    ; credits_length_check 8
+    ; credits_length_check 9
   ].
