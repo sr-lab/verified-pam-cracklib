@@ -6,6 +6,7 @@ Local Open Scope string_scope.
 (* Import functions from framework. *)
 Require Import Hapsl.Bool.Bool.
 Require Import Hapsl.Ascii.Class.
+Require Import Hapsl.Nat.Notations.
 Require Import Hapsl.String.Distance.
 Require Import Hapsl.String.Transform.
 Require Import Hapsl.String.Palindrome.
@@ -13,10 +14,12 @@ Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Search.
 Require Import Hapsl.String.Sequence.
 
-Import StringEqualityNotations.
-
 (* Import types from framework. *)
 Require Import Hapsl.Checkers.Types.
+
+(* Import required notations. *)
+Import StringEqualityNotations.
+Import NatNotations.
 
 (* Utility functions to deal with old passwords (that might not exist). *)
 Definition old_is_undefined (pt : PasswordTransition) : bool :=
@@ -33,8 +36,6 @@ Definition new_pwd (pt : PasswordTransition) : Password :=
   match pt with
    | PwdTransition old new => new
   end.
-
-
 
 (* Notations for checkers. *)
 Module CheckerNotations.
@@ -101,34 +102,34 @@ Definition levenshtein_distance_gt (dist : nat) (pt : PasswordTransition) : Chec
 (* The new password must be long enough, taking into account number of character 
  * classes. *)
 Definition credits_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
-  if leb (length (new_pwd pt)) (len - (string_count_character_classes (new_pwd pt))) then
-    BADPWD: "The new password is too short."
+  if length (new_pwd pt) >=? (len - string_count_character_classes (new_pwd pt)) then
+    GOODPWD
   else
-    GOODPWD.
+    BADPWD: "The new password is too short.".
 
 (* The new password must be long enough. *)
 Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
-  if leb (length (new_pwd pt)) len then
-    BADPWD: "The new password is too short."
+  if length (new_pwd pt) >=? len then
+    GOODPWD
   else
-    GOODPWD.
+    BADPWD: "The new password is too short.".
 
 (* Prove that plain_length_check is correct for all lengths and password transitions. *)
 Lemma plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
-  plain_length_check len pt = GOODPWD <-> is_true (negb (leb (length (new_pwd pt)) len)).
+  plain_length_check len pt = GOODPWD <-> is_true (length (new_pwd pt) >=? len).
 Proof.
   intros.
   split.
   + unfold plain_length_check.
-    destruct (leb (length (new_pwd pt)) len).
+    destruct (length (new_pwd pt) >=? len).
     (* Case 1: Premise is false. *)
     - simpl. congruence.
     (* Case 2: Trivial. *)
-    - auto.
+    - simpl. congruence.
   + unfold plain_length_check.
     destruct (leb (length (new_pwd pt)) len).
-    - unfold is_true. simpl. congruence.
-    - unfold is_true. simpl. auto.
+    - unfold is_true. intros. rewrite H. reflexivity.
+    - unfold is_true. intros. rewrite H. reflexivity.
 Qed.
 
 (* The new password must not contain more than a certain number of characters of
