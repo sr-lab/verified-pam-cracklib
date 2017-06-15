@@ -175,6 +175,18 @@ Definition levenshtein_distance_gt (dist : nat) (pt : PasswordTransition) : Chec
         else
           GOODPWD.
 
+Theorem levenshtein_distance_gt_correct : forall (dist : nat) (old new : string),
+    Nat.leb (levenshtein_distance (string_to_lower old) (string_to_lower (new))) dist = true ->
+    levenshtein_distance_gt dist (PwdTransition (Some old) new) <> None.
+Proof.
+  intros.
+  unfold levenshtein_distance_gt.
+  simpl.
+  rewrite H.
+  congruence.
+Qed.
+
+
 (* The new password must be long enough, taking into account number of character 
  * classes. *)
 Definition credits_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
@@ -182,6 +194,17 @@ Definition credits_length_check (len : nat) (pt : PasswordTransition) : CheckerR
     GOODPWD
   else
     BADPWD: "The new password is too short.".
+
+Definition credits_length_check_correct : forall (len : nat) (old new : string),
+    length new >=? (len - string_count_character_classes new) = false ->
+    credits_length_check len (PwdTransition (Some old) new) <> None.
+Proof.
+  intros.
+  unfold credits_length_check.
+  simpl.
+  rewrite H.
+  congruence.
+Qed.
 
 (* The new password must be long enough. *)
 Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
@@ -203,7 +226,7 @@ Proof.
     (* Case 2: Trivial. *)
     - simpl. congruence.
   + unfold plain_length_check.
-    destruct (leb (length (new_pwd pt)) len).
+    destruct (Nat.leb (length (new_pwd pt)) len).
     - unfold is_true. intros. rewrite H. reflexivity.
     - unfold is_true. intros. rewrite H. reflexivity.
 Qed.
@@ -211,11 +234,20 @@ Qed.
 (* The new password must not contain more than a certain number of characters of
  * the same class in a row. *)
 Definition max_class_repeat (m : nat) (pt : PasswordTransition) : CheckerResult :=
-  if leb m (sequence_of (new_pwd pt) is_same_class 0) then
+  if Nat.leb m (sequence_of (new_pwd pt) is_same_class 0) then
     GOODPWD
   else
     BADPWD: "The new password contains too many of the same character class in a row".
 
+Theorem max_class_repeat_correct : forall (m : nat) (pt : PasswordTransition),
+    Nat.leb m (sequence_of (new_pwd pt) is_same_class 0) = false -> max_class_repeat m pt <> None.
+Proof.
+  intros.
+  unfold max_class_repeat.
+  simpl.
+  rewrite H.
+  congruence.
+Qed. 
 
 (* Some proofs on the behaviour of checkers (not the functional logic) *)
 
