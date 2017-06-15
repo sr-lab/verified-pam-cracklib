@@ -4,8 +4,9 @@ Require Import Coq.Strings.String.
 Local Open Scope string_scope.
 
 (* Import functions from framework. *)
-Require Import Hapsl.Bool.Bool.
 Require Import Hapsl.Ascii.Class.
+Require Import Hapsl.Bool.Bool.
+Require Import Hapsl.Checkers.Types.
 Require Import Hapsl.Nat.Notations.
 Require Import Hapsl.String.Distance.
 Require Import Hapsl.String.Transform.
@@ -14,39 +15,56 @@ Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Search.
 Require Import Hapsl.String.Sequence.
 
-(* Import types from framework. *)
-Require Import Hapsl.Checkers.Types.
-
 (* Import required notations. *)
 Import StringEqualityNotations.
 Import NatNotations.
 
-(* Utility functions to deal with old passwords (that might not exist). *)
+(* Utility function to deal with old passwords that might not exist. *)
 Definition old_is_undefined (pt : PasswordTransition) : bool :=
   match pt with
   | PwdTransition old new =>
-	match old with
-	 | None => true
-	 | Some str => false
-	end
+    match old with
+    | None => true
+    | Some str => false
+    end
   end.
 
-(* new_pwd extracts the new password from a password transition *)
+(* Extracts the new password from a password transition. *)
 Definition new_pwd (pt : PasswordTransition) : Password :=
   match pt with
-   | PwdTransition old new => new
+  | PwdTransition old new => new
   end.
 
 (* Notations for checkers. *)
 Module CheckerNotations.
+
+  (* A check being disabled is the same as no error message. *)
   Notation DISABLE_CHECK := None.
+
+  (* A 'good password' result is the same as no error message. *)
   Notation GOODPWD := None.
+
+  (* A 'bad password' result is the same as some error message. *)
   Notation "BADPWD: msg" := (Some msg) (at level 80).
-  Notation "'NEEDS' old_pwd 'FROM' pt statement" := (let old_pwd := (fun (pt:PasswordTransition) => (match pt with (PwdTransition old new) => (match old with | None => "" | Some str => str end) end)) in if (old_is_undefined(pt)) then DISABLE_CHECK else statement) (at level 80).
+
+  (* Needs syntax to enable a check only when we have an old password. *)
+  Notation "'NEEDS' old_pwd 'FROM' pt statement" :=
+    (let old_pwd := (fun (pt : PasswordTransition) =>
+                     match pt with
+                       PwdTransition old new =>
+                       match old with
+                       | None => ""
+                       | Some str => str
+                       end
+                     end) in
+    if old_is_undefined pt then
+      DISABLE_CHECK
+    else
+      statement) (at level 80).
+  
 End CheckerNotations.
 
 Import CheckerNotations.
-
 
 (* Some Basic Checkers *)
 
@@ -57,14 +75,33 @@ Definition diff_from_old_pwd (pt : PasswordTransition) : CheckerResult :=
           BADPWD: "The new password is the same as the old password"
         else
           GOODPWD.
+
+(* Prove that diff_from_old_password gives an error when old and new passwords are identical. *)
+Theorem diff_from_old_pwd_correct : forall (old : option string) (new : string),
+    old = Some new -> diff_from_old_pwd (PwdTransition old new) <> None.
+Proof.
+  intros.
+  unfold diff_from_old_pwd.
+  simpl.
+  rewrite H.
+  rewrite beq_string_reflexive.
+  congruence.
+Qed.
+                                        
  
-(* The new password must not be a prefix of the old password (and vice-versa) *)
+(* The new password must not be a prefix of the old password (and vice-versa). *)
 Definition prefix_of_old_pwd (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
         if orb (prefix (old_pwd pt) (new_pwd pt)) (prefix (new_pwd pt) (old_pwd pt)) then
           BADPWD: "The new password is a prefix of the old password"
         else
           GOODPWD.
+
+(* Prove that prefix_of_old_password gives an error when new password is prefix of the old one. *)
+Definition prefix_of_old_pwd_correct : forall (old: string) (new : string),
+    (prefix old new) = true -> prefix_of_old_pwd (PwdTransition (Some old) new) <> None.
+Proof.
+  Admitted.
 
 (* The new password must not be a palindrome *)
 Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
@@ -73,13 +110,23 @@ Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
   else
     GOODPWD.
 
+Theorem not_palindrome_correct : forall (pt : PasswordTransition),
+    palindrome (new_pwd pt) = true -> not_palindrome pt <> None.
+Proof.
+  Admitted.
+    
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
-		if string_is_rotated (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt)) then
-		  BADPWD: "The new password is a rotated version of the old password."
-		else
-		  GOODPWD.
+        if string_is_rotated (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt)) then
+	  BADPWD: "The new password is a rotated version of the old password."
+	else
+	  GOODPWD.
+
+Theorem not_rotated_correct : forall (old new : string),
+    (string_is_rotated old new) = true -> not_rotated (PwdTransition (Some old) new) <> None.
+Proof.
+  Admitted.
 
 (* The new password must not just contain case changes in relation to the old 
  * password. *)
@@ -89,6 +136,12 @@ Definition not_case_changes_only (pt : PasswordTransition) : CheckerResult :=
           BADPWD: "The new password contains case changes only compared to the old password."
         else
           GOODPWD.
+
+Theorem not_case_changes_only_correct : forall (old new : string),
+    (string_to_lower old) ==_s (string_to_lower new) = true ->
+    not_case_changes_only (PwdTransition (Some old) new) <> None.
+Proof.
+  Admitted.
 
 (* The new password must have a Levenshtein distance greater than five in 
  * relation to the old password. *)
