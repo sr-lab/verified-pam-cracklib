@@ -1,4 +1,5 @@
 Require Import Coq.Arith.Arith.
+Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
 Local Open Scope string_scope.
@@ -87,8 +88,7 @@ Proof.
   rewrite beq_string_reflexive.
   congruence.
 Qed.
-                                        
- 
+
 (* The new password must not be a prefix of the old password (and vice-versa). *)
 Definition prefix_of_old_pwd (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
@@ -99,9 +99,15 @@ Definition prefix_of_old_pwd (pt : PasswordTransition) : CheckerResult :=
 
 (* Prove that prefix_of_old_password gives an error when new password is prefix of the old one. *)
 Definition prefix_of_old_pwd_correct : forall (old: string) (new : string),
-    (prefix old new) = true -> prefix_of_old_pwd (PwdTransition (Some old) new) <> None.
+    ((prefix old new) || (prefix new old)) = true ->
+    prefix_of_old_pwd (PwdTransition (Some old) new) <> None.
 Proof.
-  Admitted.
+  intros.
+  unfold prefix_of_old_pwd.
+  simpl.
+  rewrite H.
+  congruence.
+Qed.
 
 (* The new password must not be a palindrome *)
 Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
@@ -111,9 +117,14 @@ Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
     GOODPWD.
 
 Theorem not_palindrome_correct : forall (pt : PasswordTransition),
-    palindrome (new_pwd pt) = true -> not_palindrome pt <> None.
+    palindrome (string_to_lower (new_pwd pt)) = true -> not_palindrome pt <> None.
 Proof.
-  Admitted.
+  intros.
+  unfold not_palindrome.
+  rewrite H.
+  congruence.
+Qed.
+  
     
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
@@ -124,9 +135,15 @@ Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
 	  GOODPWD.
 
 Theorem not_rotated_correct : forall (old new : string),
-    (string_is_rotated old new) = true -> not_rotated (PwdTransition (Some old) new) <> None.
+    (string_is_rotated (string_to_lower old) (string_to_lower new)) = true ->
+    not_rotated (PwdTransition (Some old) new) <> None.
 Proof.
-  Admitted.
+  intros.
+  unfold not_rotated.
+  simpl.
+  rewrite H.
+  congruence.
+Qed.
 
 (* The new password must not just contain case changes in relation to the old 
  * password. *)
@@ -138,16 +155,22 @@ Definition not_case_changes_only (pt : PasswordTransition) : CheckerResult :=
           GOODPWD.
 
 Theorem not_case_changes_only_correct : forall (old new : string),
-    (string_to_lower old) ==_s (string_to_lower new) = true ->
+    (string_to_lower old) = (string_to_lower new) ->
     not_case_changes_only (PwdTransition (Some old) new) <> None.
 Proof.
-  Admitted.
+  intros.
+  unfold not_case_changes_only.
+  simpl.
+  rewrite <- H.
+  rewrite beq_string_reflexive.
+  congruence.
+Qed.
 
 (* The new password must have a Levenshtein distance greater than five in 
  * relation to the old password. *)
 Definition levenshtein_distance_gt (dist : nat) (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
-        if leb (levenshtein_distance (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt))) dist then
+        if Nat.leb (levenshtein_distance (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt))) dist then
           BADPWD: "The new password is too similar to the old password."
         else
           GOODPWD.
