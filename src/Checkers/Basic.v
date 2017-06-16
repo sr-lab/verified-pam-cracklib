@@ -239,14 +239,15 @@ Proof.
     - unfold is_true. intros. rewrite H. reflexivity.
 Qed.
 
-(* The new password must not contain more than a certain number of characters of
- * the same class in a row. *)
+(* The new password must not contain more than a certain number of characters of the same class in
+   a row. *)
 Definition max_class_repeat (m : nat) (pt : PasswordTransition) : CheckerResult :=
   if m <=? (sequence_of (new_pwd pt) is_same_class 0) then
     GOODPWD
   else
     BADPWD: "The new password contains too many of the same character class in a row".
 
+(* Prove that max_class_repeat gives an error appropriately. *)
 Theorem max_class_repeat_correct : forall (m : nat) (pt : PasswordTransition),
     m <=? (sequence_of (new_pwd pt) is_same_class 0) = false -> max_class_repeat m pt <> None.
 Proof.
@@ -257,8 +258,9 @@ Proof.
   congruence.
 Qed. 
 
-(* Some proofs on the behaviour of checkers (not the functional logic) *)
+(* Some proofs on the behaviour of checkers (not the functional logic). *)
 
+(* Returns true if the old password is undefined (none) otherwise returns false. *)
 Definition old_pwd_is_undefined (pt : PasswordTransition): bool :=
   match pt with
   | PwdTransition old _ =>
@@ -276,10 +278,10 @@ Lemma prefix_old_pwd_undefined: forall (pt: PasswordTransition),
 Proof.
   intros.
   unfold old_pwd_is_undefined in H. 
-  (* Case analysis *)
+  (* Case analysis. *)
   destruct pt. destruct o.
-   (* Case 1 (trivial): old password is defined *)
+   (* Case 1 (trivial): old password is defined. *)
    - congruence.
-   (* Case 2: old password is undefined *)
+   (* Case 2: old password is undefined. *)
    - unfold prefix_of_old_pwd. simpl. auto.
 Qed.
