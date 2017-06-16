@@ -123,6 +123,7 @@ Definition not_palindrome (pt : PasswordTransition) : CheckerResult :=
   else
     GOODPWD.
 
+(* Prove that not_palindrome gives an error when the new password is a palindrome. *)
 Theorem not_palindrome_correct : forall (pt : PasswordTransition),
     palindrome (string_to_lower (new_pwd pt)) = true -> not_palindrome pt <> None.
 Proof.
@@ -131,7 +132,6 @@ Proof.
   rewrite H.
   congruence.
 Qed.
-  
     
 (* The new password must not be a rotated version of the old password. *)
 Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
@@ -141,8 +141,9 @@ Definition not_rotated (pt : PasswordTransition) : CheckerResult :=
 	else
 	  GOODPWD.
 
+(* Prove that not_rotated gives an error when the new password is a rotated version of the old. *)
 Theorem not_rotated_correct : forall (old new : string),
-    (string_is_rotated (string_to_lower old) (string_to_lower new)) = true ->
+    string_is_rotated (string_to_lower old) (string_to_lower new) = true ->
     not_rotated (PwdTransition (Some old) new) <> None.
 Proof.
   intros.
@@ -152,8 +153,7 @@ Proof.
   congruence.
 Qed.
 
-(* The new password must not just contain case changes in relation to the old 
- * password. *)
+(* The new password must not just contain case changes in relation to the old password. *)
 Definition not_case_changes_only (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
         if (string_to_lower (old_pwd pt)) ==_s (string_to_lower (new_pwd pt)) then
@@ -161,6 +161,7 @@ Definition not_case_changes_only (pt : PasswordTransition) : CheckerResult :=
         else
           GOODPWD.
 
+(* Prove that not_case_changes_only gives an error when old and new passwords differ in case. *)
 Theorem not_case_changes_only_correct : forall (old new : string),
     (string_to_lower old) = (string_to_lower new) ->
     not_case_changes_only (PwdTransition (Some old) new) <> None.
@@ -173,17 +174,19 @@ Proof.
   congruence.
 Qed.
 
-(* The new password must have a Levenshtein distance greater than five in 
- * relation to the old password. *)
+(* The new password must have a certain Levenshtein distance from the old password. *)
 Definition levenshtein_distance_gt (dist : nat) (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
-        if Nat.leb (levenshtein_distance (string_to_lower (old_pwd pt)) (string_to_lower (new_pwd pt))) dist then
+        let old := string_to_lower (old_pwd pt) in
+        let new := string_to_lower (new_pwd pt) in
+        if levenshtein_distance old new <=? dist then
           BADPWD: "The new password is too similar to the old password."
         else
           GOODPWD.
 
+(* Prove that levenshtein_distance_gt gives an error for passwords that are too similar. *)
 Theorem levenshtein_distance_gt_correct : forall (dist : nat) (old new : string),
-    Nat.leb (levenshtein_distance (string_to_lower old) (string_to_lower (new))) dist = true ->
+    levenshtein_distance (string_to_lower old) (string_to_lower (new)) <=? dist = true ->
     levenshtein_distance_gt dist (PwdTransition (Some old) new) <> None.
 Proof.
   intros.
@@ -193,9 +196,7 @@ Proof.
   congruence.
 Qed.
 
-
-(* The new password must be long enough, taking into account number of character 
- * classes. *)
+(* The new password must be long enough, taking into account number of character classes. *)
 Definition credits_length_check (len : nat) (pt : PasswordTransition) : CheckerResult :=
   if length (new_pwd pt) >=? (len - string_count_character_classes (new_pwd pt)) then
     GOODPWD
