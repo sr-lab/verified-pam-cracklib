@@ -78,8 +78,8 @@ Definition diff_from_old_pwd (pt : PasswordTransition) : CheckerResult :=
           GOODPWD.
 
 (* Prove that diff_from_old_password gives an error when old and new passwords are identical. *)
-Theorem diff_from_old_pwd_correct : forall (old : option string) (new : string),
-    old = Some new -> diff_from_old_pwd (PwdTransition old new) <> None.
+Theorem diff_from_old_pwd_correct : forall (old new : string),
+    old = new -> diff_from_old_pwd (PwdTransition (Some old) new) <> None.
 Proof.
   intros.
   unfold diff_from_old_pwd.
@@ -92,21 +92,28 @@ Qed.
 (* The new password must not be a prefix of the old password (and vice-versa). *)
 Definition prefix_of_old_pwd (pt : PasswordTransition) : CheckerResult :=
   NEEDS old_pwd FROM pt
-        if orb (prefix (old_pwd pt) (new_pwd pt)) (prefix (new_pwd pt) (old_pwd pt)) then
+        if prefix (old_pwd pt) (new_pwd pt) || prefix (new_pwd pt) (old_pwd pt) then
           BADPWD: "The new password is a prefix of the old password"
         else
           GOODPWD.
 
 (* Prove that prefix_of_old_password gives an error when new password is prefix of the old one. *)
 Definition prefix_of_old_pwd_correct : forall (old: string) (new : string),
-    ((prefix old new) || (prefix new old)) = true ->
+    (prefix old new) = true \/ (prefix new old) = true ->
     prefix_of_old_pwd (PwdTransition (Some old) new) <> None.
 Proof.
   intros.
-  unfold prefix_of_old_pwd.
-  simpl.
-  rewrite H.
-  congruence.
+  decompose [or] H.
+  + unfold prefix_of_old_pwd.
+    simpl.
+    rewrite H0.
+    rewrite orb_true_l.
+    congruence.
+  + unfold prefix_of_old_pwd.
+    simpl.
+    rewrite H0.
+    rewrite orb_true_r.
+    congruence.
 Qed.
 
 (* The new password must not be a palindrome *)
