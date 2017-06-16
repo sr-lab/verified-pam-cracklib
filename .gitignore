@@ -19,3 +19,7 @@ _CoqProject
 
 # Generated Haskell
 *Generated.hs
+
+# Emacs
+*.v~
+..d
