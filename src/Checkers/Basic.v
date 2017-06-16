@@ -2,8 +2,6 @@ Require Import Coq.Arith.Arith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 
-Local Open Scope string_scope.
-
 (* Import functions from framework. *)
 Require Import Hapsl.Ascii.Class.
 Require Import Hapsl.Bool.Bool.
@@ -15,6 +13,8 @@ Require Import Hapsl.String.Palindrome.
 Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Search.
 Require Import Hapsl.String.Sequence.
+
+Local Open Scope string_scope.
 
 (* Import required notations. *)
 Import StringEqualityNotations.
@@ -223,7 +223,7 @@ Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerRes
 
 (* Prove that plain_length_check is correct for all lengths and password transitions. *)
 Theorem plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
-  plain_length_check len pt = GOODPWD <-> is_true (length (new_pwd pt) >=? len).
+  plain_length_check len pt = GOODPWD <-> length (new_pwd pt) >=? len = true.
 Proof.
   intros.
   split.
@@ -234,7 +234,7 @@ Proof.
     (* Case 2: Trivial. *)
     - simpl. congruence.
   + unfold plain_length_check.
-    destruct (Nat.leb (length (new_pwd pt)) len).
+    destruct (length (new_pwd pt) <=? len).
     - unfold is_true. intros. rewrite H. reflexivity.
     - unfold is_true. intros. rewrite H. reflexivity.
 Qed.
@@ -242,13 +242,13 @@ Qed.
 (* The new password must not contain more than a certain number of characters of
  * the same class in a row. *)
 Definition max_class_repeat (m : nat) (pt : PasswordTransition) : CheckerResult :=
-  if Nat.leb m (sequence_of (new_pwd pt) is_same_class 0) then
+  if m <=? (sequence_of (new_pwd pt) is_same_class 0) then
     GOODPWD
   else
     BADPWD: "The new password contains too many of the same character class in a row".
 
 Theorem max_class_repeat_correct : forall (m : nat) (pt : PasswordTransition),
-    Nat.leb m (sequence_of (new_pwd pt) is_same_class 0) = false -> max_class_repeat m pt <> None.
+    m <=? (sequence_of (new_pwd pt) is_same_class 0) = false -> max_class_repeat m pt <> None.
 Proof.
   intros.
   unfold max_class_repeat.
