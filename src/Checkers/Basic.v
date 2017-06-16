@@ -222,7 +222,7 @@ Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerRes
     BADPWD: "The new password is too short.".
 
 (* Prove that plain_length_check is correct for all lengths and password transitions. *)
-Lemma plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
+Theorem plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
   plain_length_check len pt = GOODPWD <-> is_true (length (new_pwd pt) >=? len).
 Proof.
   intros.
