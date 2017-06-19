@@ -2,8 +2,6 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.NArith.NArith.
 Require Import Coq.Strings.Ascii.
 
-Require Import Hapsl.CpdtTactics.
-
 (* Returns the comparison of two ASCII characters. *)
 Definition compare_ascii (a b : ascii) : comparison  :=
   N.compare (N_of_ascii a) (N_of_ascii b).
