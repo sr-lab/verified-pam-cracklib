@@ -25,19 +25,19 @@ An overview of proofs across the project.
 + blt_ascii (a b : ascii)
   - blt_ascii_antireflexive
   - blt_ascii_asymmetric
-  - blt_ascii_transitive INCOMPLETE
+  - blt_ascii_transitive **INCOMPLETE**
 + bleq_ascii (a b : ascii)
   - bleq_ascii_reflexive
-  - bgeq_ascii_antisymmetric INCOMPLETE
-  - bgeq_ascii_transitive INCOMPLETE
+  - bgeq_ascii_antisymmetric **INCOMPLETE**
+  - bgeq_ascii_transitive **INCOMPLETE**
 + bgt_ascii (a b : ascii)
   - bgt_ascii_antireflexive
   - bgt_ascii_asymmetric
-  - bgt_ascii_transitive INCOMPLETE
+  - bgt_ascii_transitive **INCOMPLETE**
 + bgeq_ascii (a b : ascii)
   - bgeq_ascii_reflexive
-  - bgeq_ascii_antisymmetric INCOMPLETE
-  - bgeq_ascii_transitive INCOMPLETE
+  - bgeq_ascii_antisymmetric **INCOMPLETE**
+  - bgeq_ascii_transitive **INCOMPLETE**
 + beq_option_ascii (a b : option ascii)
 
 ## Bool/Bool.v
@@ -67,18 +67,18 @@ An overview of proofs across the project.
 
 ## String/Distance.v
 + hamming_distance (a b : string)
-  - hamming_distance_undefined_for_different_lengths INCOMPLETE
-  - hamming_distance_defined_for_same_length INCOMPLETE
+  - hamming_distance_undefined_for_different_lengths **INCOMPLETE**
+  - hamming_distance_defined_for_same_length **INCOMPLETE**
   - hamming_distance_zero_for_identical
-  - hamming_distance_at_most_string_length INCOMPLETE
+  - hamming_distance_at_most_string_length **INCOMPLETE**
 + indicator (a b : string) (i j : nat)
 + levenshtein (a b : string) (i j n : nat)
 + levenshtein_distance (a b : string)
-  - levenshtein_distance_at_least_length_diff INCOMPLETE
-  - levenshtein_distance_zero_for_equal_strings INCOMPLETE
-  - levenshtein_distance_same_length_leq_hamming INCOMPLETE
-  - levenshtein_distance_leq_longer_string_length INCOMPLETE
-  - levenshtein_distance_triangle_inequality INCOMPLETE
+  - levenshtein_distance_at_least_length_diff **INCOMPLETE**
+  - levenshtein_distance_zero_for_equal_strings **INCOMPLETE**
+  - levenshtein_distance_same_length_leq_hamming **INCOMPLETE**
+  - levenshtein_distance_leq_longer_string_length **INCOMPLETE**
+  - levenshtein_distance_triangle_inequality **INCOMPLETE**
 + palindrome (s : string)
   - palindrome_correct
 + palindrome_efficient_recursive (s : string) (x y : nat)
