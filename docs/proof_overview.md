@@ -1,5 +1,5 @@
 # Proofs Overview
-An overview of proofs across the project.
+An overview of proofs across the project. Proofs marked as incomplete still need to be added/completed. This list does not include proofs yet to be identified.
 
 ## Ascii/Class.v
 + is_lower (c : ascii)
