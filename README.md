@@ -24,14 +24,13 @@ Once again, take a look at [the provisioning script included](https://github.com
 
 Build the module by navigating to the `src` directory and calling `make`. On successful build, type `sudo make install`.
 
-
 ```bash
 cd src
 make
 sudo make install
 ```
 
-To activate the module (that is, configure your `passwd` utility) to use it, type `sudo make activate`
+To activate the module (that is, configure your `passwd` utility to use it), type `sudo make activate`
 
 ```bash
 sudo make activate
