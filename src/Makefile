@@ -3,7 +3,7 @@ SHELL:=/bin/bash
 
 main:
 	# Compile and make Coq project
-	( echo "-R . Hapsl" ; find . -name "*.v" -print ) > _CoqProject
+	#( echo "-R . Hapsl" ; find . -name "*.v" -print ) > _CoqProject
 	coq_makefile -f _CoqProject -o Makefile_Coq
 	make -f Makefile_Coq
 
@@ -27,6 +27,7 @@ main:
 
 clean:
 	rm -f *.hi *.o .*.aux *~ *.vo *.glob PasswordPolicyGenerated.* pam_basic_pwd_policy *.so *_stub.h
+	find . -name *.vo
 
 install:
 	# Delete existing installation and copy built installation over
