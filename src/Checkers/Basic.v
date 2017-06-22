@@ -14,6 +14,9 @@ Require Import Hapsl.String.Equality.
 Require Import Hapsl.String.Search.
 Require Import Hapsl.String.Sequence.
 
+(* Import CPDT crush tactic *)
+Require Import Hapsl.CpdtTactics.
+
 Local Open Scope string_scope.
 
 (* Import required notations. *)
@@ -223,6 +226,13 @@ Definition plain_length_check (len : nat) (pt : PasswordTransition) : CheckerRes
 
 (* Prove that plain_length_check is correct for all lengths and password transitions. *)
 Theorem plain_length_check_correct : forall (len : nat) (pt : PasswordTransition),
+  plain_length_check len pt = GOODPWD <-> length (new_pwd pt) >=? len = true.
+Proof.
+  repeat (split; unfold plain_length_check; destruct (length (new_pwd pt) >=? len); crush).
+Qed.
+
+(* A more manual proof that plain_length_check is correct for all lengths and password transitions. *)
+Theorem plain_length_check_correct' : forall (len : nat) (pt : PasswordTransition),
   plain_length_check len pt = GOODPWD <-> length (new_pwd pt) >=? len = true.
 Proof.
   intros.
