@@ -42,3 +42,6 @@ This will modify your `/etc/pam.d/common-password` file to use the __verified__ 
 ```bash
 sudo make deactivate
 ```
+
+## License
+See LICENSE.md for licensing information. Excepted from this license is the `src/CpdtTactics.v` file by Adam Chlipala which is licensed according to the source file header.
