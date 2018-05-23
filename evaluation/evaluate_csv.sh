@@ -9,8 +9,8 @@ function removeLineBreaks
 	echo $RESULT
 }
 
-printf "started: %s"
-printf "password, time, result, valid"
+printf "started: %s\n"
+printf "password, time, result, valid\n"
 
 # For each line in password file.
 while IFS='' read -r line || [[ -n "$line" ]]; do
@@ -37,6 +37,6 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 
 	# Print object.
 	CLEANLINE="${line//\\/\\\\}"
-	printf "%s, %s, %s, %s" "$CLEANLINE" "$TIME" "$RESULT" "$VALID"
+	printf "%s, %s, %s, %s\n" "$CLEANLINE" "$TIME" "$RESULT" "$VALID"
 
 done < "$1"
